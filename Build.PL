@@ -9,7 +9,12 @@ my $builder = Module::Build->new(
     dist_author => 'William Travis Holton <cromulent2000_eisley@yahoo.de>',
     dist_version_from    => 'lib/ParseUtil/Domain.pm',
     recursive_test_files => 1,
-    requires             => {
+    build_requires       => {
+        'LWP::UserAgent'               => 0,
+        'Regexp::Assemble::Compressed' => 0,
+
+    },
+    requires => {
         'Test::More'         => 0,
         'Test::Class'        => 0,
         'Test::Deep'         => 0,
@@ -17,6 +22,7 @@ my $builder = Module::Build->new(
         'Test::Perl::Critic' => 0,
         'Smart::Comments'    => 0,
         'YAML'               => 0,
+        'Net::IDN::Punycode' => 0,
 
     },
     add_to_cleanup => ['ParseUtil-*'],
