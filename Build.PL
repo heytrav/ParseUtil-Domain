@@ -11,7 +11,7 @@ my $builder = ParseUtil::Build->new(
     recursive_test_files => 1,
     build_requires       => {
 #        'LWP::UserAgent'               => 0,
-#        'Regexp::Assemble::Compressed' => 0,
+        'Regexp::Assemble::Compressed' => 0,
 
     },
     requires => {
