@@ -13,31 +13,39 @@ use utf8;
 
 sub parse_domain : Export(:DEFAULT) {    #{{{
     my $name = shift;
+    my @name_segments = split /\@/, $name;
+
+    my @segments = split /[\.\x{FF0E}\x{3002}\x{FF61}]/, $name_segments[-1];
     ### executing with : $name
-    my $zone = _find_zone($name);
+    my $zone = _find_zone( \@segments );
     ### found zone : $zone
-    
+    my $puny_processed = _punycode_segments( \@segments, $zone );
 
 }    #}}}
 
 sub _find_zone {    #{{{
-    my $domain_string = shift;
-    my @segments = split /[\@\.\x{FF0E}\x{3002}\x{FF61}]/, $domain_string;
+    my $domain_segments = shift;
     my $zone;
     my $tld_regex = ParseUtil::Domain::ConfigData->config('tld_regex');
-    my $possible_sld =
-      join "." => map { domain_to_ascii($_) } @segments[ -1, -2 ];
-    return join "." => @segments[ -2, -1 ] if $possible_sld =~ /\A$tld_regex\z/;
-    my $possible_tld = domain_to_ascii( $segments[-1] );
-    return $segments[-1] if $possible_tld =~ /\A$tld_regex\z/;
-    die "Could not find tld.";
+    my $tld       = pop @{$domain_segments};
+    my $sld       = pop @{$domain_segments};
 
+    my $possible_tld = join "." => map { domain_to_ascii($_) } $sld,
+      $tld;
+    if ( $possible_tld =~ /\A$tld_regex\z/ ) {
+        return { zone => $possible_tld, domain => $domain_segments };
+    }
+    if ( $tld =~ /\A$tld_regex\z/ ) {
+        push @{$domain_segments}, $sld;
+        return { zone => $tld, domain => $domain_segments };
+    }
+    die "Could not find tld.";
 }    #}}}
 
-sub _punycode_segments { #{{{
-    
+sub _punycode_segments {    #{{{
+    my ( $domain_segments, $zone ) = @_;
 
-} #}}}
+}    #}}}
 
 "one, but we're not the same";
 
