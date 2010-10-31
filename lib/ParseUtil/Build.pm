@@ -1,5 +1,9 @@
 package ParseUtil::Build;
 
+use strict;
+use warnings;
+
+
 use base qw(Module::Build);
 
 use YAML;
@@ -26,7 +30,7 @@ sub process_tld_data_files {    #{{{
         $regexp_chunk .= '[^\.]+\.' if $has_wildcard;
         $regexp_obj->add($regexp_chunk);
     }
-    print "Got regex:\n".$regexp_obj->re()."\n";
+    $self->config_data(tld_regex => $regexp_obj->re());
 }    #}}}
 
 sub reverse_puny_encode {    #{{{
@@ -55,3 +59,29 @@ sub reverse_puny_encode {    #{{{
 "one, but we're not the same."
 
 __END__
+
+
+=head1 NAME
+
+ParseUtil::Build - Prepare the installation.
+
+=head1 SYNOPSIS
+
+  use ParseUtil::Build;
+
+  not actually used by any internal classes.
+
+=head1 DESCRIPTION
+
+# longer description...
+
+
+=head1 INTERFACE
+
+
+=head1 DEPENDENCIES
+
+
+=head1 SEE ALSO
+
+
