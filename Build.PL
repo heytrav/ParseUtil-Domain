@@ -10,8 +10,8 @@ my $builder = ParseUtil::Build->new(
     dist_version_from    => 'lib/ParseUtil/Domain.pm',
     recursive_test_files => 1,
     build_requires       => {
-        'LWP::UserAgent'               => 0,
-        'Regexp::Assemble::Compressed' => 0,
+#        'LWP::UserAgent'               => 0,
+#        'Regexp::Assemble::Compressed' => 0,
 
     },
     requires => {
@@ -23,7 +23,7 @@ my $builder = ParseUtil::Build->new(
         'Test::Perl::Critic' => 0,
         'Smart::Comments'    => 0,
         'YAML'               => 0,
-        'Net::IDN::Punycode' => 0,
+        'Net::IDN::Encode' => 0,
 
     },
     add_to_cleanup => ['ParseUtil-*'],
