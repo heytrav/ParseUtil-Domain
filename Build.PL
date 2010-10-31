@@ -1,8 +1,8 @@
 use strict;
 use warnings;
-use Module::Build;
+use ParseUtil::Build;
 
-my $builder = Module::Build->new(
+my $builder = ParseUtil::Build->new(
     module_name => 'ParseUtil::Domain',
     license     => 'perl',
 
@@ -27,12 +27,12 @@ my $builder = Module::Build->new(
 
     },
     add_to_cleanup => ['ParseUtil-*'],
-    tld_data_files => { '' => '' }
+    tld_data_files => { 
+        'data/effective_tld_names.txt' => 'data/effective_tld_names.txt' 
+    }
 );
 
+$builder->add_build_element('tld_data');
 $builder->create_build_script();
 
 
-sub Module::Build::prepare_tld_regex { #{{{
-    #body ...
-} #}}}
