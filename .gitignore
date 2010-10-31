@@ -1,3 +1,7 @@
 *.swp
+*.yml
 MANIFEST
+Build
+_build
+blib
 
