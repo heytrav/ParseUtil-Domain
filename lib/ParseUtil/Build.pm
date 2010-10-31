@@ -22,8 +22,8 @@ sub process_tld_data_files {    #{{{
     my $regexp_obj = Regexp::Assemble::Compressed->new();
     foreach my $processed_tld (@processed_tlds) {
         my ($object,$has_wildcard) = @{$processed_tld}{qw/object has_wildcard/};
-        my $regexp_chunk = '\Q'.$object.'\E';
-        $regexp_chunk .= '\.[^\.]+\.' if $has_wildcard;
+        my $regexp_chunk = '\Q'.$object.'.\E';
+        $regexp_chunk .= '[^\.]+\.' if $has_wildcard;
         $regexp_obj->add($regexp_chunk);
     }
     print "Got regex:\n".$regexp_obj->re()."\n";
