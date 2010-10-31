@@ -27,6 +27,7 @@ my $builder = Module::Build->new(
 
     },
     add_to_cleanup => ['ParseUtil-*'],
+    tld_data_files => { '' => '' }
 );
 
 $builder->create_build_script();

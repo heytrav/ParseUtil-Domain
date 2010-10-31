@@ -1,6 +1,12 @@
 package ParseUtil::Domain;
 
-use version 0.77; our $VERSION = qv('v0.0.1');
+use strict;
+use warnings;
+
+
+use version 0.77; our $VERSION = qv("v0.0.1");
+
+
 
 
 
