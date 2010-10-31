@@ -25,6 +25,7 @@ my $builder = ParseUtil::Build->new(
         'YAML'               => 0,
         'Net::IDN::Encode'   => 0,
         'Net::IDN::Punycode' => 0,
+        'Perl6::Export::Attrs' => 0,
 
     },
     add_to_cleanup => ['ParseUtil-*'],

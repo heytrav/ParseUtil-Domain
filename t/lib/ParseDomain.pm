@@ -9,7 +9,7 @@ use Test::More;
 use Test::Deep;
 use Test::Exception;
 
-use ParseUtil::Domain ':all';
+use ParseUtil::Domain ;
 
 sub t010_split_ascii_domain_tld : Test(6) {    #{{{
     my $self = shift;
