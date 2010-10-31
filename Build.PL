@@ -19,6 +19,7 @@ my $builder = Module::Build->new(
         'Test::Class'        => 0,
         'Test::Deep'         => 0,
         'Perl::Critic'       => 0,
+        'version'            => 0.77,
         'Test::Perl::Critic' => 0,
         'Smart::Comments'    => 0,
         'YAML'               => 0,
@@ -29,3 +30,8 @@ my $builder = Module::Build->new(
 );
 
 $builder->create_build_script();
+
+
+sub Module::Build::prepare_tld_regex { #{{{
+    #body ...
+} #}}}

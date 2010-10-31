@@ -1,13 +1,8 @@
 package ParseUtil::Domain;
 
-use base qw(ParentClass);
+use version 0.77; our $VERSION = qv('v0.0.1');
 
-sub new {
-    my $class = shift;
-    $class = ref $class if ref $class;
-    my $self = bless {}, $class;
-    $self;
-}
+
 
 "one, but we're not the same";
 
