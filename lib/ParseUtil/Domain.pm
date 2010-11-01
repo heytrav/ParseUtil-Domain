@@ -189,7 +189,8 @@ Examples:
 
   1. 'somedomain.com' 
   2. 'test.xn--o3cw4h'
-  3. 'bloß.de'
+  3. 'bloß.co.at'
+  4. 'bloß.de'
 
 
 =back
@@ -224,6 +225,14 @@ Examples:
    }
 
   3.
+  { 
+    domain => 'bloss',
+    zone => 'co.at',
+    domain_ace => 'bloss',
+    zone_ace => 'co.at'
+   }
+
+  4.
   { 
     domain => 'bloß',
     zone => 'de',
