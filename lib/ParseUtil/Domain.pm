@@ -9,10 +9,10 @@ use ParseUtil::Domain::ConfigData;
 use Net::IDN::Encode ':all';
 use Net::IDN::Punycode ':all';
 use Net::IDN::Nameprep;
+
 #use Smart::Comments;
 use YAML;
 use utf8;
-
 
 sub parse_domain : Export(:DEFAULT) {    #{{{
     my $name = shift;
@@ -58,12 +58,14 @@ sub _find_zone {    #{{{
 
     }
     else {
-        $possible_tld = join "." => map { domain_to_ascii(nameprep $_) } $tld, $sld;
+        $possible_tld = join "." => map { domain_to_ascii( nameprep $_) } $tld,
+          $sld;
 
     }
     my @zone_params;
     if ( $possible_tld =~ /\A$tld_regex\z/ ) {
-        my $zone_ace = join "." => map { domain_to_ascii( nameprep $_) } $sld, $tld;
+        my $zone_ace = join "." => map { domain_to_ascii( nameprep $_) } $sld,
+          $tld;
         my $zone = join "." => $sld, $tld;
         push @zone_params, zone_ace => $zone_ace;
         return {
@@ -72,7 +74,7 @@ sub _find_zone {    #{{{
             @zone_params,
         };
     }
-    my $zone_ace = domain_to_ascii(nameprep $tld);
+    my $zone_ace = domain_to_ascii( nameprep $tld);
     if ( $zone_ace =~ /\A$tld_regex\z/ ) {
         push @{$domain_segments}, $sld;
         push @zone_params, zone_ace => $zone_ace;
@@ -92,8 +94,7 @@ sub _punycode_segments {    #{{{
     if ( not $zone or $zone !~ /^de$/ ) {
         my $puny_encoded =
           [ map { domain_to_ascii( nameprep $_) } @{$domain_segments} ];
-        my $puny_decoded =
-          [ map { domain_to_unicode($_) } @{$puny_encoded} ];
+        my $puny_decoded = [ map { domain_to_unicode($_) } @{$puny_encoded} ];
         return {
             domain     => ( join "." => @{$puny_decoded} ),
             domain_ace => ( join "." => @{$puny_encoded} )
@@ -268,11 +269,9 @@ The Public Suffix List at http://publicsuffix.org/list/
 
 There could be problems handling some IDN domains and tlds (particularly for
 B<.de> domains).  Due to the fact that the .de registry has recently started
-allowing the German "Sharp S" wich is automatically converted to B<ss> by most
-puny en/decoders, I've had to bypass the I<nameprep> step by just using the
+allowing the German "Sharp S" which is automatically converted to B<ss> by most
+puny encoders, I've had to bypass the I<nameprep> step by just using the
 L<encode_punycode|Net::IDN::Punycode/"encode_punycode"> subroutine directly.
-I'm not sure what ramifications this might have for the other preprocessing
-steps.
 
 
 
