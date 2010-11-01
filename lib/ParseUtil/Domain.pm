@@ -8,7 +8,7 @@ use Perl6::Export::Attrs;
 use ParseUtil::Domain::ConfigData;
 use Net::IDN::Encode ':all';
 use Net::IDN::Punycode ':all';
-use Encode;
+use Net::IDN::Nameprep;
 use Smart::Comments;
 use YAML;
 use utf8;
@@ -84,6 +84,8 @@ sub _punycode_segments {    #{{{
         return { domain => $puny_decoded, domain_ace => $puny_encoded };
     }
 
+    # Have to avoid the nameprep step for .de domains now that DENIC has
+    # decided to allow the German "sharp S".
     my $puny_encoded = [ map { _puny_encode($_) } @{$domain_segments} ];
     my $puny_decoded = [ map { _puny_decode($_) } @{$puny_encoded} ];
     return { domain => $puny_decoded, domain_ace => $puny_encoded };
@@ -93,8 +95,8 @@ sub _punycode_segments {    #{{{
 sub _puny_encode {    #{{{
     my $unencoded   = shift;
     ### encoding : $unencoded
-    (my $temp_unencoded = $unencoded) =~ s/\x{00DF}/ss/;
-    print "Temp unencoded: $temp_unencoded\n";
+    my $temp_unencoded = nameprep $unencoded;
+    ### namepreped : $temp_unencoded
     my $test_encode = domain_to_ascii($temp_unencoded);
     return $unencoded if $test_encode eq $unencoded;
     return "xn--" . encode_punycode($unencoded);
@@ -105,7 +107,7 @@ sub _puny_decode {    #{{{
     $encoded =~ s/^xn--//;
     ### decoding : $encoded
     my $test_decode = decode_punycode($encoded);
-    ### teset decode : $test_decode
+    ### test decode : $test_decode
     return $encoded if $encoded eq $test_decode;
     return decode_punycode($encoded);
 
