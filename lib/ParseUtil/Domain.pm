@@ -9,7 +9,7 @@ use ParseUtil::Domain::ConfigData;
 use Net::IDN::Encode ':all';
 use Net::IDN::Punycode ':all';
 use Net::IDN::Nameprep;
-use Smart::Comments;
+#use Smart::Comments;
 use YAML;
 use utf8;
 
@@ -28,7 +28,21 @@ sub parse_domain : Export(:DEFAULT) {    #{{{
     ### found zone_ace : $zone_ace
 
     my $puny_processed = _punycode_segments( $domain_segments, $zone );
-    print "Processed: " . Dump($puny_processed) . "\n";
+    @{$puny_processed}{qw/zone zone_ace/} = ( $zone, $zone_ace );
+
+    # process .name "email" domains
+    if ( @name_segments > 1 ) {
+        my $punycoded_name = _punycode_segments( [ $name_segments[0] ], $zone );
+        my ( $name_domain, $name_ace ) =
+          @{$punycoded_name}{qw/domain domain_ace/};
+        $puny_processed->{domain} = join '@' => $name_domain,
+          $puny_processed->{domain};
+        if ($name_ace) {
+            $puny_processed->{domain_ace} = join '@' => $name_ace,
+              $puny_processed->{domain_ace};
+        }
+    }
+    return $puny_processed;
 
 }    #}}}
 
@@ -38,36 +52,34 @@ sub _find_zone {    #{{{
     my $tld             = pop @{$domain_segments};
     my $sld             = pop @{$domain_segments};
 
-    my $possible_tld;
+    my ($possible_tld);
     if ( $tld =~ /^de$/ ) {
         ### is a de domain
-        $possible_tld = join "." => $tld, _puny_encode($sld) ;
+        $possible_tld = join "." => $tld, _puny_encode($sld);
 
     }
     else {
-        $possible_tld = join "." => map { domain_to_ascii($_) } $tld, $sld;
+        $possible_tld = join "." => map { domain_to_ascii(nameprep $_) } $tld, $sld;
 
     }
     my @zone_params;
     if ( $possible_tld =~ /\A$tld_regex\z/ ) {
+        my $zone_ace = join "." => map { domain_to_ascii( nameprep $_) } $sld, $tld;
         my $zone = join "." => $sld, $tld;
-        my $zone_ace = join "." => map { domain_to_ascii($_) } $sld, $tld;
-        push @zone_params, zone_ace => $zone_ace
-          unless $zone eq $zone_ace;
+        push @zone_params, zone_ace => $zone_ace;
         return {
-            zone   => $zone,
+            zone   => domain_to_unicode($zone),
             domain => $domain_segments,
             @zone_params,
         };
     }
-    my $zone_ace = domain_to_ascii($tld);
+    my $zone_ace = domain_to_ascii(nameprep $tld);
     if ( $zone_ace =~ /\A$tld_regex\z/ ) {
         push @{$domain_segments}, $sld;
-        push @zone_params, zone_ace => $zone_ace
-          unless $zone_ace eq $tld;
+        push @zone_params, zone_ace => $zone_ace;
 
         return {
-            zone   => $tld,
+            zone   => domain_to_unicode($tld),
             domain => $domain_segments,
             @zone_params
         };
@@ -78,23 +90,32 @@ sub _find_zone {    #{{{
 sub _punycode_segments {    #{{{
     my ( $domain_segments, $zone ) = @_;
 
-    if ( $zone !~ /^de$/ ) {
-        my $puny_encoded = [ map { domain_to_ascii($_) } @{$domain_segments} ];
-        my $puny_decoded = [ map { domain_to_unicode($_) } @{$puny_encoded} ];
-        return { domain => $puny_decoded, domain_ace => $puny_encoded };
+    if ( not $zone or $zone !~ /^de$/ ) {
+        my $puny_encoded =
+          [ map { domain_to_ascii( nameprep $_) } @{$domain_segments} ];
+        my $puny_decoded =
+          [ map { domain_to_unicode($_) } @{$puny_encoded} ];
+        return {
+            domain     => ( join "." => @{$puny_decoded} ),
+            domain_ace => ( join "." => @{$puny_encoded} )
+        };
     }
 
     # Have to avoid the nameprep step for .de domains now that DENIC has
     # decided to allow the German "sharp S".
     my $puny_encoded = [ map { _puny_encode($_) } @{$domain_segments} ];
     my $puny_decoded = [ map { _puny_decode($_) } @{$puny_encoded} ];
-    return { domain => $puny_decoded, domain_ace => $puny_encoded };
+    return {
+        domain     => ( join "." => @{$puny_decoded} ),
+        domain_ace => ( join "." => @{$puny_encoded} )
+    };
 
 }    #}}}
 
 sub _puny_encode {    #{{{
-    my $unencoded   = shift;
+    my $unencoded = shift;
     ### encoding : $unencoded
+    # quick check to make sure that domain should be decoded
     my $temp_unencoded = nameprep $unencoded;
     ### namepreped : $temp_unencoded
     my $test_encode = domain_to_ascii($temp_unencoded);
@@ -103,7 +124,7 @@ sub _puny_encode {    #{{{
 }    #}}}
 
 sub _puny_decode {    #{{{
-    my $encoded     = shift;
+    my $encoded = shift;
     $encoded =~ s/^xn--//;
     ### decoding : $encoded
     my $test_decode = decode_punycode($encoded);

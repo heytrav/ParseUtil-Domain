@@ -9,100 +9,125 @@ use Test::More;
 use Test::Deep;
 use Test::Exception;
 use utf8;
+use YAML;
 
 use ParseUtil::Domain;
 
-sub t010_split_ascii_domain_tld : Test(6) {    #{{{
+sub t010_split_ascii_domain_tld : Test(13) {    #{{{
     my $self = shift;
+    my $test_domains = [
+    
+        {
+            raw     => 'something.com',
+            domain => 'something',
+            zone     => 'com'
 
-    my @ascii_domains = qw/
-      something.com
-      netseco.or.at
-      whatever.name
-      me.whatever.name
-      me@whatever.name
-      mx01.whatevertest.it
-      /;
+        },
+        {
+            raw     => 'neteseco.or.at',
+            domain => 'neteseco',
+            zone     => 'or.at'
 
-    foreach my $domain (@ascii_domains) {
-        my $parsed = parse_domain($domain);
-        is(
-            $parsed,
-            superhashof(
-                {
-                    tld    => ignore(),
-                    domain => ignore()
-                }
-            ),
-            "Expected datastructure."
-        );
+        },
+        {raw => 'whatever.name',domain => 'whatever', zone => 'name'},
+        {raw => 'me.whatever.name',domain => 'me.whatever', zone => 'name'},
+        {raw => 'me@whatever.name',domain => 'me@whatever', zone => 'name'},
+        {raw => 'mx01.whatever.it',domain => 'mx01.whatever', zone => 'it'},
+
+    ];
+
+
+    foreach my $test_domain ( @{$test_domains} ) {
+        my $parsed = parse_domain( $test_domain->{raw} );
+        my ( $domain, $zone, ) = @{$parsed}{qw/domain zone /};
+
+        is( $domain,
+            $test_domain->{domain}, "Expected " . $test_domain->{domain} );
+        is( $zone,
+            $test_domain->{zone}, "Expected " . $test_domain->{zone} );
 
     }
+
+    throws_ok { 
+        parse_domain('nota.tld');
+    
+    } qr/Could not find tld/,'Unknown tlds not processed.';
+
+
 }    #}}}
 
-sub t020_split_unicode_domain_tld : Test(6) {    #{{{
+sub t020_split_unicode_domain_tld : Test(18) {    #{{{
     my $self          = shift;
     my $domain_to_ace = [
         {
-            domain  => 'u¨.com',
+            raw     => 'ü.com',
             decoded => 'ü.com',
             ace     => 'xn--tda.com'
 
         },
         {
-            domain  => 'ü.com',
-            decoded => 'ü.com',
-            ace     => 'xn--tda.com'
+            raw     => 'test.香港',
+            decoded => 'test.香港',
+            ace     => 'test.xn--j6w193g'
 
         },
         {
-            domain  => 'ü.or.at',
+            raw     => 'test.xn--o3cw4h',
+            decoded => 'test.ไทย',
+            ace     => 'test.xn--o3cw4h'
+
+        },
+        {
+            raw     => 'ü@somewhere.name',
+            decoded => 'ü@somewhere.name',
+            ace     => 'xn--tda@somewhere.name'
+
+        },
+        {
+            raw     => 'ü.or.at',
             decoded => 'ü.or.at',
             ace     => 'xn--tda.or.at'
 
         },
         {
-            domain  => 'bloß.de',
             decoded => 'bloß.de',
-            ace     => 'xn--blo-7ka.de'
+            ace     => 'xn--blo-7ka.de',
+            raw     => 'xn--blo-7ka.de'
 
         },
         {
-            domain  => 'faß.co.at',
+            raw     => 'faß.co.at',
             decoded => 'fass.co.at',
             ace     => 'fass.co.at'
 
         },
         {
-            domain  => 'faß.de',
+            raw     => 'faß.de',
             decoded => 'faß.de',
             ace     => 'xn--fa-hia.de'
 
         },
         {
-            domain  => 'faß.de',
             decoded => 'faß.de',
-            ace     => 'xn--fa-hia.de'
+            ace     => 'xn--fa-hia.de',
+            raw     => 'xn--fa-hia.de'
 
         },
 
     ];
 
-    my @ascii_domains = qw/
+    foreach my $test_domain ( @{$domain_to_ace} ) {
+        my $parsed = parse_domain( $test_domain->{raw} );
+        my ( $domain, $domain_ace, $zone, $zone_ace ) =
+          @{$parsed}{qw/domain domain_ace zone zone_ace/};
 
-      /;
-    foreach my $domain (@ascii_domains) {
-        my $parsed = parse_domain($domain);
-        is(
-            $parsed,
-            superhashof(
-                {
-                    tld    => ignore(),
-                    domain => ignore()
-                }
-            ),
-            "Expected datastructure."
-        );
+        my $decoded_domain = join "." => $domain,     $zone;
+        my $ace_domain     = join "." => $domain_ace, $zone_ace;
+
+        is( $test_domain->{decoded},
+            $decoded_domain, "Expected " . $test_domain->{decoded} );
+        is( $test_domain->{ace}, $ace_domain,
+            "Expected " . $test_domain->{ace} );
 
     }
 }    #}}}
