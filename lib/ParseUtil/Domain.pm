@@ -13,7 +13,6 @@ use Net::IDN::Nameprep;
 use YAML;
 use utf8;
 
-binmode( STDOUT, "utf8" );
 
 sub parse_domain : Export(:DEFAULT) {    #{{{
     my $name = shift;
@@ -151,25 +150,131 @@ components.
   my $processed = parse_domain("somedomain.com");
     #   $processed == { 
     #        domain => 'somedomain',
-    #        tld => 'com',
-    #        ace => undef
+    #        domain_ace => 'somedomain',
+    #        zone => 'com',
+    #        zone_ace => 'com'
     #    }
 
 
 =head1 DESCRIPTION
 
 
+Just another tool for parsing domain names.  This module makes use of the data
+provided by the I<Public Suffix List> (http://publicsuffix.org/list/) to parse
+tlds.  For completeness it also tries to provide the puny encoded and decoded
+domain and tld part of a domain name. 
+
+
 
 =head1 INTERFACE
 
+
+
 =head2 parse_domain
 
-Parse a domain name into its constituent components.
+=over 2
+
+=item
+Arguments
+
+
+=over 3
+
+=item
+C<string>
+
+
+Examples:
+
+  1. 'somedomain.com' 
+  2. 'test.xn--o3cw4h'
+  3. 'bloß.de'
+
+
+=back
+
+
+=item
+Return
+
+=over 3
+
+
+=item
+C<HASHREF>
+
+
+Examples:
+  
+  1.
+  { 
+    domain => 'somedomain',
+    zone => 'com',
+    domain_ace => 'somedomain',
+    zone_ace => 'com'
+   }
+
+  2.
+  { 
+    domain => 'test',
+    zone => 'ไทย',
+    domain_ace => 'test',
+    zone_ace => 'xn--o3cw4h'
+   }
+
+  3.
+  { 
+    domain => 'bloß',
+    zone => 'de',
+    domain_ace => 'xn--blo-7ka',
+    zone_ace => 'de'
+   }
+
+
+
+=back
+
+
+
+=back
+
 
 
 =head1 DEPENDENCIES
 
+=over 3
 
-=head1 SEE ALSO
+
+=item
+L<Net::IDN::Encode>
+
+
+=item
+L<Net::IDN::Punycode>
+
+
+=item
+L<Regexp::Assemble::Compressed>
+
+
+=item
+The Public Suffix List at http://publicsuffix.org/list/
+
+
+=back
+
+
+=head1 BUGS
+
+There could be problems handling some IDN domains and tlds (particularly for
+B<.de> domains).  Due to the fact that the .de registry has recently started
+allowing the German "Sharp S" wich is automatically converted to B<ss> by most
+puny en/decoders, I've had to bypass the I<nameprep> step by just using the
+L<encode_punycode|Net::IDN::Punycode/"encode_punycode"> subroutine directly.
+I'm not sure what ramifications this might have for the other preprocessing
+steps.
+
+
+
 
 
