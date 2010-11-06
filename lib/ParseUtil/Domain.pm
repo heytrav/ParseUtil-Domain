@@ -50,42 +50,48 @@ sub _find_zone {    #{{{
     my $tld_regex       = ParseUtil::Domain::ConfigData->config('tld_regex');
     my $tld             = pop @{$domain_segments};
     my $sld             = pop @{$domain_segments};
+    my $thld            = pop @{$domain_segments};
 
-    my ($possible_tld);
+    my ( $possible_tld, $possible_thld );
+    my ( $thld_zone_ace, $sld_zone_ace, $tld_zone_ace ) =
+      map { domain_to_ascii( nameprep $_) } $thld, $sld, $tld;
     if ( $tld =~ /^de$/ ) {
         ### is a de domain
         $possible_tld = join "." => $tld, _puny_encode($sld);
 
     }
     else {
-        $possible_tld = join "." => map { domain_to_ascii( nameprep $_) } $tld,
-          $sld;
+        $possible_tld  = join "." => $tld_zone_ace, $sld_zone_ace;
+        $possible_thld = join "." => $possible_tld, $thld_zone_ace;
 
     }
-    my @zone_params;
-    if ( $possible_tld =~ /\A$tld_regex\z/ ) {
+    my ( $zone, @zone_params );
+
+    if ( $possible_thld =~ /\A$tld_regex\z/ ) {
+        my $zone_ace = join "." => $thld_zone_ace, $sld_zone_ace, $tld_zone_ace;
+        $zone = join "." => $thld, $sld, $tld;
+        push @zone_params, zone_ace => $zone_ace;
+        $unicode_zone = domain_to_unicode($zone);
+    }
+    elsif ( $possible_tld =~ /\A$tld_regex\z/ ) {
+        push @{$domain_segments}, $thld;
         my $zone_ace = join "." => map { domain_to_ascii( nameprep $_) } $sld,
           $tld;
-        my $zone = join "." => $sld, $tld;
+        $zone = join "." => $sld, $tld;
         push @zone_params, zone_ace => $zone_ace;
-        return {
-            zone   => domain_to_unicode($zone),
-            domain => $domain_segments,
-            @zone_params,
-        };
     }
-    my $zone_ace = domain_to_ascii( nameprep $tld);
-    if ( $zone_ace =~ /\A$tld_regex\z/ ) {
+    elsif ( $tld_zone_ace =~ /\A$tld_regex\z/ ) {
         push @{$domain_segments}, $sld;
         push @zone_params, zone_ace => $zone_ace;
-
-        return {
-            zone   => domain_to_unicode($tld),
-            domain => $domain_segments,
-            @zone_params
-        };
+        $zone = $tld;
     }
     die "Could not find tld.";
+    my $unicode_zone = domain_to_unicode($zone);
+    return {
+        zone   => $unicode_zone,
+        domain => $domain_segments,
+        @zone_params
+    };
 }    #}}}
 
 sub _punycode_segments {    #{{{
