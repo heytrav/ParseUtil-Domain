@@ -1,0 +1,86 @@
+NAME
+       ParseUtil::Domain - Utility for parsing domain name into its
+       constituent components.
+
+SYNOPSIS
+         use ParseUtil::Domain;
+
+         my $processed = parse_domain("somedomain.com");
+           #   $processed == {
+           #        domain => 'somedomain',
+           #        domain_ace => 'somedomain',
+           #        zone => 'com',
+           #        zone_ace => 'com'
+           #    }
+
+DESCRIPTION
+       Just another tool for parsing domain names.  This module makes use of
+       the data provided by the Public Suffix List
+       (http://publicsuffix.org/list/) to parse tlds.  For completeness it
+       also tries to provide the puny encoded and decoded domain and tld part
+       of a domain name.
+
+INTERFACE
+   parse_domain
+        Arguments
+          "string"
+            Examples:
+
+              1. 'somedomain.com'
+              2. 'test.xn--o3cw4h'
+              3. 'bloß.co.at'
+              4. 'bloß.de'
+
+        Return
+          "HASHREF"
+            Examples:
+
+              1.
+              {
+			domain => 'somedomain',
+			zone => 'com',
+			domain_ace => 'somedomain',
+			zone_ace => 'com'
+               }
+
+              2.
+               {
+			domain => 'test',
+			zone => 'ไทย',
+			domain_ace => 'test',
+			zone_ace => 'xn--o3cw4h'
+               }
+
+              3.
+               {
+			domain => 'bloss',
+			zone => 'co.at',
+			domain_ace => 'bloss',
+			zone_ace => 'co.at'
+               }
+
+              4.
+            	{
+			domain => 'bloß',
+			zone => 'de',
+			domain_ace => 'xn--blo-7ka',
+			zone_ace => 'de'
+               }
+
+DEPENDENCIES
+        Net::IDN::Encode
+        Net::IDN::Punycode
+        Regexp::Assemble::Compressed
+        The Public Suffix List at http://publicsuffix.org/list/
+
+BUGS
+       There could be problems handling some IDN domains and tlds
+       (particularly for .de domains).  Due to the fact that the .de registry
+       has recently started allowing the German "Sharp S" which is
+       automatically converted to ss by most puny encoders, I've had to bypass
+       the nameprep step by just using the encode_punycode subroutine
+       directly.
+
+:w
+
+
