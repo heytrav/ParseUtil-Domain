@@ -56,9 +56,9 @@ sub reverse_puny_encode {    #{{{
 EOF
 
 my $builder = $class->new(
-    module_name => 'ParseUtil::Domain',
-    license     => 'perl',
-    dist_author => 'William Travis Holton <wtravisholton@yahoo.de>',
+    module_name          => 'ParseUtil::Domain',
+    license              => 'perl',
+    dist_author          => 'William Travis Holton <wtravisholton@yahoo.de>',
     dist_version_from    => 'lib/ParseUtil/Domain.pm',
     recursive_test_files => 1,
     build_requires       => {
@@ -68,16 +68,16 @@ my $builder = $class->new(
 
     },
     requires => {
-        'Test::More'         => 0,
-        'Test::Class'        => 0,
-        'Test::Deep'         => 0,
-        'Perl::Critic'       => 0,
-        'version'            => 0.77,
-        'Test::Perl::Critic' => 0,
-        'Smart::Comments'    => 0,
-        'YAML'               => 0,
-        'Net::IDN::Encode'   => 0,
-        'Net::IDN::Punycode' => 0,
+        'Test::More'           => 0,
+        'Test::Class'          => 0,
+        'Test::Deep'           => 0,
+        'Perl::Critic'         => 0,
+        'version'              => 0.77,
+        'Test::Perl::Critic'   => 0,
+        'Smart::Comments'      => 0,
+        'YAML'                 => 0,
+        'Net::IDN::Encode'     => 0,
+        'Net::IDN::Punycode'   => 0,
         'Perl6::Export::Attrs' => 0,
 
     },
