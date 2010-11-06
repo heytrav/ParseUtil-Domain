@@ -4,14 +4,10 @@ use Module::Build;
 
 my $class = Module::Build->subclass( code => <<'EOF');
 
-use YAML;
-use Smart::Comments;
-use Net::IDN::Encode ':all';
-use Regexp::Assemble::Compressed;
-use Unicode::CharName q{uname};
 use utf8;
 
 sub process_tld_data_files {    #{{{
+    use Regexp::Assemble::Compressed;
     my $self = shift;
     my ($tld_data_file) = keys %{ $self->{properties}->{tld_data_files} };
     open my $fh, "<:encoding(utf8)", $tld_data_file;
@@ -31,6 +27,8 @@ sub process_tld_data_files {    #{{{
 }    #}}}
 
 sub reverse_puny_encode {    #{{{
+    use Net::IDN::Encode ':all';
+    use Unicode::CharName q{uname};
     my $object = shift;
     my $has_wildcard = 0;
     $has_wildcard = $object =~ s/\*\.//;    # remove leading "*." and flag

@@ -168,9 +168,9 @@ components.
 
 Just another tool for parsing domain names.  This module makes use of the data
 provided by the I<Public Suffix List> (http://publicsuffix.org/list/) to parse
-tlds.  For completeness it also tries to provide the puny encoded and decoded
-domain and tld part of a domain name. 
-
+tlds.  For completeness it tries to provide the respective puny encoded and decoded
+domain and tld part of a domain name.  This includes proper handling of the
+B<LATIN SHARP S> which is now allowed by DENIC eG (.de).
 
 
 =head1 INTERFACE
@@ -282,12 +282,9 @@ The Public Suffix List at http://publicsuffix.org/list/
 
 =head1 BUGS
 
-There could be problems handling some IDN domains and tlds (particularly for
-B<.de> domains).  Due to the fact that the .de registry has recently started
-allowing the German "Sharp S" which is automatically converted to B<ss> by most
-puny encoders, I've had to bypass the I<nameprep> step by just using the
-L<encode_punycode|Net::IDN::Punycode/"encode_punycode"> subroutine directly.
-
+Although, not necessarily a bug, be wary of differences in encoding/decoding
+domains ending in B<.de>.  These domains are not I<nameprep>ed like other tlds
+in order to allow for encoding of the German B<LATIN SHARP S>.
 
 
 
