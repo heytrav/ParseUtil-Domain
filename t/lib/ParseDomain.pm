@@ -13,46 +13,52 @@ use YAML;
 
 use ParseUtil::Domain;
 
-sub t010_split_ascii_domain_tld : Test(13) {    #{{{
-    my $self = shift;
+sub t010_split_ascii_domain_tld : Test(15) {    #{{{
+    my $self         = shift;
     my $test_domains = [
-    
+
         {
-            raw     => 'something.com',
+            raw    => 'something.com',
             domain => 'something',
-            zone     => 'com'
+            zone   => 'com'
 
         },
         {
-            raw     => 'neteseco.or.at',
+            raw    => 'neteseco.or.at',
             domain => 'neteseco',
-            zone     => 'or.at'
+            zone   => 'or.at'
 
         },
-        {raw => 'whatever.name',domain => 'whatever', zone => 'name'},
-        {raw => 'me.whatever.name',domain => 'me.whatever', zone => 'name'},
-        {raw => 'me@whatever.name',domain => 'me@whatever', zone => 'name'},
-        {raw => 'mx01.whatever.it',domain => 'mx01.whatever', zone => 'it'},
+        {
+            raw    => 'something.tas.gov.au',
+            domain => 'something',
+            zone   => 'tas.gov.au'
+        },
+        { raw => 'whatever.name',    domain => 'whatever',    zone => 'name' },
+        { raw => 'me.whatever.name', domain => 'me.whatever', zone => 'name' },
+        { raw => 'me@whatever.name', domain => 'me@whatever', zone => 'name' },
+        { raw => 'mx01.whatever.it', domain => 'mx01.whatever', zone => 'it' },
 
     ];
-
 
     foreach my $test_domain ( @{$test_domains} ) {
         my $parsed = parse_domain( $test_domain->{raw} );
         my ( $domain, $zone, ) = @{$parsed}{qw/domain zone /};
 
-        is( $domain,
-            $test_domain->{domain}, "Expected " . $test_domain->{domain} );
-        is( $zone,
-            $test_domain->{zone}, "Expected " . $test_domain->{zone} );
+        is(
+            $domain,
+            $test_domain->{domain},
+            "Expected " . $test_domain->{domain}
+        );
+        is( $zone, $test_domain->{zone}, "Expected " . $test_domain->{zone} );
 
     }
 
-    throws_ok { 
+    throws_ok {
         parse_domain('nota.tld');
-    
-    } qr/Could not find tld/,'Unknown tlds not processed.';
 
+    }
+    qr/Could not find tld/, 'Unknown tlds not processed.';
 
 }    #}}}
 

@@ -53,39 +53,39 @@ sub _find_zone {    #{{{
     my $thld            = pop @{$domain_segments};
 
     my ( $possible_tld, $possible_thld );
-    my ( $thld_zone_ace, $sld_zone_ace, $tld_zone_ace ) =
-      map { domain_to_ascii( nameprep $_) } $thld, $sld, $tld;
+    my ( $sld_zone_ace, $tld_zone_ace ) =
+      map { domain_to_ascii( nameprep $_) }$sld, $tld;
+      my $thld_zone_ace;
+       $thld_zone_ace = domain_to_ascii( nameprep $thld) if $thld;
     if ( $tld =~ /^de$/ ) {
         ### is a de domain
         $possible_tld = join "." => $tld, _puny_encode($sld);
-
     }
     else {
         $possible_tld  = join "." => $tld_zone_ace, $sld_zone_ace;
-        $possible_thld = join "." => $possible_tld, $thld_zone_ace;
-
+        $possible_thld = join "." => $possible_tld, $thld_zone_ace if
+        $thld_zone_ace;
     }
     my ( $zone, @zone_params );
 
-    if ( $possible_thld =~ /\A$tld_regex\z/ ) {
+    if ($possible_thld and  $possible_thld =~ /\A$tld_regex\z/ ) {
         my $zone_ace = join "." => $thld_zone_ace, $sld_zone_ace, $tld_zone_ace;
         $zone = join "." => $thld, $sld, $tld;
         push @zone_params, zone_ace => $zone_ace;
-        $unicode_zone = domain_to_unicode($zone);
     }
     elsif ( $possible_tld =~ /\A$tld_regex\z/ ) {
         push @{$domain_segments}, $thld;
-        my $zone_ace = join "." => map { domain_to_ascii( nameprep $_) } $sld,
-          $tld;
+        my $zone_ace = join "." =>$sld_zone_ace, $tld_zone_ace ;
         $zone = join "." => $sld, $tld;
         push @zone_params, zone_ace => $zone_ace;
     }
     elsif ( $tld_zone_ace =~ /\A$tld_regex\z/ ) {
+        push @{$domain_segments}, $thld if $thld;
         push @{$domain_segments}, $sld;
-        push @zone_params, zone_ace => $zone_ace;
+        push @zone_params, zone_ace => $tld_zone_ace;
         $zone = $tld;
     }
-    die "Could not find tld.";
+    die "Could not find tld." unless $zone;
     my $unicode_zone = domain_to_unicode($zone);
     return {
         zone   => $unicode_zone,

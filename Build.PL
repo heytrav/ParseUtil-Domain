@@ -2,7 +2,7 @@ use strict;
 use warnings;
 use Module::Build;
 
-my $class = Module::Build->subclass(code => <<'EOF');
+my $class = Module::Build->subclass( code => <<'EOF');
 
 use YAML;
 use Smart::Comments;
