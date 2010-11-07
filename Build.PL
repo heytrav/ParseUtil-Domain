@@ -7,7 +7,7 @@ my $class = Module::Build->subclass( code => <<'EOF');
 use utf8;
 
 sub process_tld_data_files {    #{{{
-    use Regexp::Assemble::Compressed;
+    require Regexp::Assemble::Compressed;
     my $self = shift;
     my ($tld_data_file) = keys %{ $self->{properties}->{tld_data_files} };
     open my $fh, "<:encoding(utf8)", $tld_data_file;
@@ -27,8 +27,8 @@ sub process_tld_data_files {    #{{{
 }    #}}}
 
 sub reverse_puny_encode {    #{{{
-    use Net::IDN::Encode ':all';
-    use Unicode::CharName q{uname};
+    require Net::IDN::Encode;# ':all';
+    require Unicode::CharName;# q{uname};
     my $object = shift;
     my $has_wildcard = 0;
     $has_wildcard = $object =~ s/\*\.//;    # remove leading "*." and flag
@@ -38,11 +38,11 @@ sub reverse_puny_encode {    #{{{
     # puny encode everything
     eval {
         @reversed_segments =
-          map { domain_to_ascii($_) } reverse @segments;
+          map { Net::IDN::Encode::domain_to_ascii($_) } reverse @segments;
     };
     if ( my $e = $@ ) {
         my @components = split //, $object;
-        map { print $_. " " . uname( ord($_) ) . "\n" } @components;
+        map { print $_. " " . Unicode::CharName::uname( ord($_) ) . "\n" } @components;
         warn "Unable to process $object.\n"
         ."Please report this error to package author.";
     }
@@ -68,6 +68,7 @@ my $builder = $class->new(
         'Test::Class'                  => 0,
         'Test::Deep'                   => 0,
         'Test::Perl::Critic'           => 0,
+        'Net::IDN::Encode'             => 0,
     },
     requires => {
         'version'              => 0.77,
