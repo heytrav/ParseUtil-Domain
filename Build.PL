@@ -60,24 +60,20 @@ my $builder = $class->new(
     dist_version_from    => 'lib/ParseUtil/Domain.pm',
     recursive_test_files => 1,
     build_requires       => {
-
-        #        'LWP::UserAgent'               => 0,
         'Regexp::Assemble::Compressed' => 0,
-
+        'Perl::Critic'                 => 0,
+        'Smart::Comments'              => 0,
+        'YAML'                         => 0,
+        'Test::More'                   => 0,
+        'Test::Class'                  => 0,
+        'Test::Deep'                   => 0,
+        'Test::Perl::Critic'           => 0,
     },
     requires => {
-        'Test::More'           => 0,
-        'Test::Class'          => 0,
-        'Test::Deep'           => 0,
-        'Perl::Critic'         => 0,
         'version'              => 0.77,
-        'Test::Perl::Critic'   => 0,
-        'Smart::Comments'      => 0,
-        'YAML'                 => 0,
         'Net::IDN::Encode'     => 0,
         'Net::IDN::Punycode'   => 0,
         'Perl6::Export::Attrs' => 0,
-
     },
     add_to_cleanup => ['ParseUtil-*'],
     tld_data_files =>
