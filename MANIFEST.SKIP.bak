@@ -13,3 +13,4 @@
 
 # Avoid archives of this distribution
 \bParseUtil-Domain-[\d\.\_]+
+*.swp
