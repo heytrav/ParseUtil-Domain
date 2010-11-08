@@ -3,7 +3,7 @@ package ParseUtil::Domain;
 use strict;
 use warnings;
 
-use version 0.77; our $VERSION = qv("v1.0.2");
+use version 0.77; our $VERSION = qv("v1.0.3");
 use Perl6::Export::Attrs;
 use ParseUtil::Domain::ConfigData;
 use Net::IDN::Encode ':all';
@@ -195,8 +195,8 @@ Examples:
 
   1. 'somedomain.com' 
   2. 'test.xn--o3cw4h'
-  3. 'bloß.co.at'
-  4. 'bloß.de'
+  3. 'blo\x{DF}.co.at'
+  4. 'blo\x{DF}.de'
 
 
 =back
@@ -225,7 +225,7 @@ Examples:
   2.
   { 
     domain => 'test',
-    zone => 'ไทย',
+    zone => '\x{E44}\x{E17}\x{E22}',
     domain_ace => 'test',
     zone_ace => 'xn--o3cw4h'
    }
@@ -240,7 +240,7 @@ Examples:
 
   4.
   { 
-    domain => 'bloß',
+    domain => 'blo\x{DF}',
     zone => 'de',
     domain_ace => 'xn--blo-7ka',
     zone_ace => 'de'
