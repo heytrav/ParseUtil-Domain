@@ -3,7 +3,7 @@ package ParseUtil::Domain;
 use strict;
 use warnings;
 
-use version 0.77; our $VERSION = qv("v1.0.3");
+use version 0.77; our $VERSION = qv("v1.0.4");
 use Perl6::Export::Attrs;
 use ParseUtil::Domain::ConfigData;
 use Net::IDN::Encode ':all';
@@ -16,7 +16,7 @@ use utf8;
 
 sub parse_domain : Export(:DEFAULT) {    #{{{
     my $name = shift;
-    my @name_segments = split /\@/, $name;
+    my @name_segments =  split /\@/, lc $name;
     ### namesegments : Dump(\@name_segments)
 
     my @segments = split /[\.\x{FF0E}\x{3002}\x{FF61}]/, $name_segments[-1];
