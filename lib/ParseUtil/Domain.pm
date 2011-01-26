@@ -19,10 +19,10 @@ sub parse_domain : Export(:DEFAULT) {    #{{{
     open my $utf8h, "<:encoding(utf8)", \$name;
     my $utf8_name = do { local $/; <$utf8h>;};
     close $utf8h;
-    my @name_segments = split /\@/, $name;
+    my @name_segments = split /\@/, $utf8_name;
     ### namesegments : Dump(\@name_segments)
 
-    my @segments = map { lc $_ } split /[\.\x{FF0E}\x{3002}\x{FF61}]/, $name_segments[-1];
+    my @segments = split /[\.\x{FF0E}\x{3002}\x{FF61}]/, $name_segments[-1];
     ### executing with : $name
     my ( $zone, $zone_ace, $domain_segments ) =
       @{ _find_zone( \@segments ) }{qw/zone zone_ace domain/};
@@ -103,7 +103,7 @@ sub _punycode_segments {    #{{{
 
     if ( not $zone or $zone !~ /^de$/ ) {
         my $puny_encoded =
-          [ map { domain_to_ascii( nameprep $_) } @{$domain_segments} ];
+          [ map { domain_to_ascii( nameprep( lc $_)) } @{$domain_segments} ];
         my $puny_decoded = [ map { domain_to_unicode($_) } @{$puny_encoded} ];
         return {
             domain     => ( join "." => @{$puny_decoded} ),
@@ -113,7 +113,7 @@ sub _punycode_segments {    #{{{
 
     # Have to avoid the nameprep step for .de domains now that DENIC has
     # decided to allow the German "sharp S".
-    my $puny_encoded = [ map { _puny_encode($_) } @{$domain_segments} ];
+    my $puny_encoded = [ map { _puny_encode(lc $_) } @{$domain_segments} ];
     my $puny_decoded = [ map { _puny_decode($_) } @{$puny_encoded} ];
     return {
         domain     => ( join "." => @{$puny_decoded} ),
