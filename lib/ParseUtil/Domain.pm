@@ -147,7 +147,9 @@ __END__
 
 =head1 NAME
 
-ParseUtil::Domain - Utility for parsing domain name into its constituent
+=encoding utf8
+
+ParseUtil::Domain - Utility for parsing a domain name into its constituent
 components.
 
 =head1 SYNOPSIS
