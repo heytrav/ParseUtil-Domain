@@ -33,8 +33,8 @@ IINNTTEERRFFAACCEE
 
               1. 'somedomain.com'
               2. 'test.xn--o3cw4h'
-              3. 'blo\x{DF}.co.at'
-              4. 'blo\x{DF}.de'
+              3. 'bloss.co.at'
+              4. 'bloss.de'
 
         Return
           "HASHREF"
@@ -51,7 +51,7 @@ IINNTTEERRFFAACCEE
               2.
               {
                 domain => 'test',
-                zone => '\x{E44}\x{E17}\x{E22}',
+                zone => 'XXX',
                 domain_ace => 'test',
                 zone_ace => 'xn--o3cw4h'
                }
@@ -66,7 +66,7 @@ IINNTTEERRFFAACCEE
 
               4.
               {
-                domain => 'blo\x{DF}',
+                domain => 'bloss',
                 zone => 'de',
                 domain_ace => 'xn--blo-7ka',
                 zone_ace => 'de'
