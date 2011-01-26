@@ -135,6 +135,7 @@ sub _puny_encode {    #{{{
 
 sub _puny_decode {    #{{{
     my $encoded = shift;
+    return $encoded unless $encoded =~ /xn--/;
     $encoded =~ s/^xn--//;
     ### decoding : $encoded
     my $test_decode = decode_punycode($encoded);
