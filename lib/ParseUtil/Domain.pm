@@ -3,7 +3,7 @@ package ParseUtil::Domain;
 use strict;
 use warnings;
 
-use version 0.77; our $VERSION = qv("v1.1.0");
+use version 0.77; our $VERSION = qv("v1.1.1");
 use Perl6::Export::Attrs;
 use ParseUtil::Domain::ConfigData;
 use Net::IDN::Encode ':all';
