@@ -159,7 +159,7 @@ components.
 
 =head1 SYNOPSIS
 
-  use ParseUtil::Domain;
+  use ParseUtil::Domain ':parse';
 
   my $processed = parse_domain("somedomain.com");
     #   $processed == { 
