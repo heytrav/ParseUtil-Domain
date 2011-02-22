@@ -11,7 +11,7 @@ use Test::Exception;
 use utf8;
 use YAML;
 
-use ParseUtil::Domain;
+use ParseUtil::Domain ':parse';
 
 sub t010_split_ascii_domain_tld : Test(15) {    #{{{
     my $self         = shift;
@@ -62,7 +62,7 @@ sub t010_split_ascii_domain_tld : Test(15) {    #{{{
 
 }    #}}}
 
-sub t020_split_unicode_domain_tld : Test(18) {    #{{{
+sub t020_split_unicode_domain_tld : Test(20) {    #{{{
     my $self          = shift;
     my $domain_to_ace = [
         {
@@ -75,6 +75,12 @@ sub t020_split_unicode_domain_tld : Test(18) {    #{{{
             raw     => 'test.香港',
             decoded => 'test.香港',
             ace     => 'test.xn--j6w193g'
+
+        },
+        {
+            raw     => 'test.敎育.hk',
+            decoded => 'test.敎育.hk',
+            ace     => 'test.xn--lcvr32d.hk'
 
         },
         {
