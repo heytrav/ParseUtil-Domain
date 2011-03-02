@@ -1789,6 +1789,8 @@ co.lc
 org.lc
 edu.lc
 gov.lc
+l.lc
+p.lc
 
 // li : http://en.wikipedia.org/wiki/.li
 li
