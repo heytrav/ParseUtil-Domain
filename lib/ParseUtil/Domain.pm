@@ -3,7 +3,11 @@ package ParseUtil::Domain;
 use strict;
 use warnings;
 
-use version 0.77; our $VERSION = qv("v1.2.3");
+## no critic
+our $VERSION = '2.00_000';
+$VERSION = eval $VERSION;
+## use critic
+
 use Perl6::Export::Attrs;
 use ParseUtil::Domain::ConfigData;
 use Net::IDN::Encode ':all';
@@ -16,6 +20,7 @@ use utf8;
 
 sub parse_domain : Export(:parse) {    #{{{
     my $name = shift;
+    $name =~ s/\s//gs;
     open my $utf8h, "<:encoding(utf8)", \$name;
     my $utf8_name = do { local $/; <$utf8h>;};
     close $utf8h;
