@@ -166,13 +166,13 @@ components.
 
   use ParseUtil::Domain ':parse';
 
-  my $processed = parse_domain("somedomain.com");
-    #   $processed == { 
-    #        domain => 'somedomain',
-    #        domain_ace => 'somedomain',
-    #        zone => 'com',
-    #        zone_ace => 'com'
-    #    }
+    my $processed = parse_domain("somedomain.com");
+    $processed == { 
+        domain => 'somedomain',
+        domain_ace => 'somedomain',
+        zone => 'com',
+        zone_ace => 'com'
+    }
 
 
 =head1 DESCRIPTION
@@ -292,12 +292,9 @@ The Public Suffix List at http://publicsuffix.org/list/
 =back
 
 
-=head1 BUGS
+=head1 CHANGES
 
-Although, not necessarily a bug, be wary of differences in encoding/decoding
-domains ending in B<.de>.  These domains are not I<nameprep>ed like other tlds
-in order to allow for encoding of the German B<LATIN SHARP S>.
-
+Added several of the I<anticipated> new TLDs (nTLDs) to the parser.
 
 
 
