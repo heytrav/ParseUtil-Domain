@@ -4862,7 +4862,9 @@ co.nl
 
 
 // Proposed new TLDs
+
 africa
+athens
 bank
 bayern
 berlin
@@ -4906,6 +4908,7 @@ moscow
 music 
 naples 
 ngo 
+now
 nyc 
 one 
 pad 
@@ -4929,13 +4932,15 @@ skate
 ski 
 sport 
 surf 
+unicef
 usa
 val 
 vegas 
 ven 
 versicherung 
+vin
+vino
+vote
 web 
 wine 
 xxx
-
-
