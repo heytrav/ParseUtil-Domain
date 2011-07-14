@@ -620,6 +620,9 @@ gob.cl
 // cm : http://en.wikipedia.org/wiki/.cm
 cm
 gov.cm
+co.cm
+com.cm
+net.cm
 
 // cn : http://en.wikipedia.org/wiki/.cn
 // Submitted by registry <tanyaling@cnnic.cn> 2008-06-11
@@ -4859,6 +4862,11 @@ nf
 com.sb
 tl
 co.nl
+
+
+// Columbia
+co
+
 
 
 // Proposed new TLDs

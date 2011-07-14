@@ -4,7 +4,7 @@ use strict;
 use warnings;
 
 ## no critic
-our $VERSION = '2.04_001';
+our $VERSION = '2.05';
 $VERSION = eval $VERSION;
 ## use critic
 
