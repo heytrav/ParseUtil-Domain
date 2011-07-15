@@ -4864,11 +4864,6 @@ tl
 co.nl
 
 
-// Columbia
-co
-
-
-
 // Proposed new TLDs
 
 africa
