@@ -679,7 +679,6 @@ co
 arts.co
 com.co
 edu.co
-firm.co
 gov.co
 info.co
 int.co
