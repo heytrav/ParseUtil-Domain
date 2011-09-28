@@ -676,19 +676,13 @@ tw.cn
 // co : http://en.wikipedia.org/wiki/.co
 // Submitted by registry <tecnico@uniandes.edu.co> 2008-06-11
 co
-arts.co
 com.co
-edu.co
-firm.co
-gov.co
-info.co
-int.co
-mil.co
-net.co
-nom.co
 org.co
-rec.co
-web.co
+edu.co
+gov.co
+net.co
+mil.co
+nom.co
 
 // com : http://en.wikipedia.org/wiki/.com
 com
