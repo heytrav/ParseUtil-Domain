@@ -543,6 +543,7 @@ of.by
 // bz : http://en.wikipedia.org/wiki/.bz
 // http://www.belizenic.bz/
 bz
+co.bz
 com.bz
 net.bz
 org.bz
