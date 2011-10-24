@@ -6,7 +6,7 @@ use warnings;
 use base qw(Test::Class);
 
 use Test::More;
-use Test::Deep;
+use Test::Deep ();
 use Test::Exception;
 use utf8;
 use YAML;
