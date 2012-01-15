@@ -4,7 +4,7 @@ use strict;
 use warnings;
 
 ## no critic
-our $VERSION = '2.09_001';
+our $VERSION = '2.10';
 $VERSION = eval $VERSION;
 ## use critic
 
@@ -18,7 +18,7 @@ use Net::IDN::Nameprep;
 use YAML;
 use utf8;
 
-sub parse_domain : Export(:parse) {    #{{{
+sub parse_domain : Export(:parse) {
     my $name = shift;
     $name =~ s/\s//gs;
     open my $utf8h, "<:encoding(utf8)", \$name;
@@ -51,9 +51,9 @@ sub parse_domain : Export(:parse) {    #{{{
     }
     return $puny_processed;
 
-}    #}}}
+}
 
-sub _find_zone {    #{{{
+sub _find_zone {
     my $domain_segments = shift;
     my $tld_regex       = ParseUtil::Domain::ConfigData->config('tld_regex');
     my $tld             = pop @{$domain_segments};
@@ -101,9 +101,9 @@ sub _find_zone {    #{{{
         domain => $domain_segments,
         @zone_params
     };
-}    #}}}
+}
 
-sub _punycode_segments {    #{{{
+sub _punycode_segments {
     my ( $domain_segments, $zone ) = @_;
 
     if ( not $zone or $zone !~ /^de$/ ) {
@@ -125,9 +125,9 @@ sub _punycode_segments {    #{{{
         domain_ace => ( join "." => @{$puny_encoded} )
     };
 
-}    #}}}
+}
 
-sub _puny_encode {    #{{{
+sub _puny_encode {
     my $unencoded = shift;
     ### encoding : $unencoded
     # quick check to make sure that domain should be decoded
@@ -136,9 +136,9 @@ sub _puny_encode {    #{{{
     my $test_encode = domain_to_ascii($temp_unencoded);
     return $unencoded if $test_encode eq $unencoded;
     return "xn--" . encode_punycode($unencoded);
-}    #}}}
+}
 
-sub _puny_decode {    #{{{
+sub _puny_decode {
     my $encoded = shift;
     return $encoded unless $encoded =~ /xn--/;
     $encoded =~ s/^xn--//;
@@ -148,7 +148,7 @@ sub _puny_decode {    #{{{
     return $encoded if $encoded eq $test_decode;
     return decode_punycode($encoded);
 
-}    #}}}
+} 
 
 "one, but we're not the same";
 

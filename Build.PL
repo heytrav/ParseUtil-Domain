@@ -74,6 +74,7 @@ my $builder = $class->new(
     requires => {
         'version'              => 0.77,
         'Net::IDN::Encode'     => 0,
+        'Net::IDN::Nameprep'    => 0,
         'Net::IDN::Punycode'   => 0,
         'Perl6::Export::Attrs' => 0,
     },
