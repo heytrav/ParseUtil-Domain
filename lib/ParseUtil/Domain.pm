@@ -13,6 +13,7 @@ use ParseUtil::Domain::ConfigData;
 use Net::IDN::Encode ':all';
 use Net::IDN::Punycode ':all';
 use Net::IDN::Nameprep;
+use List::MoreUtils qw/any/;
 use Carp;
 
 #use Smart::Comments;
@@ -111,8 +112,7 @@ sub _punycode_segments {
         my $puny_encoded =
           [ map { domain_to_ascii( nameprep( lc $_ ) ) } @{$domain_segments} ];
         my $puny_decoded = [ map { domain_to_unicode($_) } @{$puny_encoded} ];
-        confess "Undefined mapping!"
-          if scalar @{$puny_decoded} != scalar @{$puny_encoded};
+        confess "Undefined mapping!" if any { /\x{DF}/ } @{$puny_decoded};
         return {
             domain     => ( join "." => @{$puny_decoded} ),
             domain_ace => ( join "." => @{$puny_encoded} )

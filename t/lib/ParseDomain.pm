@@ -142,6 +142,20 @@ sub t020_split_unicode_domain_tld : Test(20) {    #{{{
             "Expected " . $test_domain->{ace} );
 
     }
-}    #}}}
+}
+
+sub t100_undefined_mappings :Test(1) {
+    my $self = shift;
+    
+    my $test_domain =  'xn--blo-7ka.com' ;
+    throws_ok {
+       my $result =  parse_domain($test_domain);
+       ### result : Dump($result)
+    } qr/Undefined mapping/,  "Mapping should not be defined.";
+
+    
+}
+
+
 
 1;
