@@ -20,7 +20,7 @@ else {
 foreach my $domain (@input) {
     my @keys;
     given ($domain) {
-        when (/^xn--/) {
+        when (/\.?xn--/) {
             @keys = qw/domain zone/;
         }
         default {
@@ -31,3 +31,22 @@ foreach my $domain (@input) {
     say join "." => @{$parsed}{@keys};
 }
 exit(0);
+
+
+__END__
+
+=head1 NAME
+
+    convertpuny - Commandline puny en/decoder.
+
+=head1 USAGE
+
+    convertpuny xn--fa-hia.de
+    faß.de
+
+=head1 DESCRIPTION
+
+    This just converts domains to and from puny encoding. Useful for
+    commandline and or batch operations with text files.
+
+
