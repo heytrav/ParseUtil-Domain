@@ -1,0 +1,33 @@
+#!/usr/bin/perl
+
+use strict;
+use warnings;
+
+
+use feature qw/say switch/;
+
+use ParseUtil::Domain ':parse';
+binmode( STDOUT, "utf8" );
+binmode( STDIN,  "utf8" );
+my @input;
+if (@ARGV) {
+    @input = @ARGV;
+}
+else {
+    @input = <>;
+}
+
+foreach my $domain (@input) {
+    my @keys;
+    given ($domain) {
+        when (/^xn--/) {
+            @keys = qw/domain zone/;
+        }
+        default {
+            @keys = qw/domain_ace zone_ace/;
+        }
+    }
+    my $parsed = parse_domain($domain);
+    say join "." => @{$parsed}{@keys};
+}
+exit(0);
