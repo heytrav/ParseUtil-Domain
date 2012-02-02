@@ -10,8 +10,8 @@ use Test::More;
 #use Test::Deep ();
 use Test::Exception;
 use utf8;
-use YAML;
-use Smart::Comments;
+#use YAML;
+#use Smart::Comments;
 
 use ParseUtil::Domain ':parse';
 

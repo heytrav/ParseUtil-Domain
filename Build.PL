@@ -70,14 +70,15 @@ my $builder = $class->new(
         'Test::Perl::Critic'           => 0,
         'Net::IDN::Encode'             => 0,
         'Unicode::CharName'            => 0,
-        'List::MoreUtils'              => 0,
     },
     requires => {
         'version'              => 0.77,
+        'Carp'                 => 0,
         'Net::IDN::Encode'     => 0,
         'Net::IDN::Nameprep'   => 0,
         'Net::IDN::Punycode'   => 0,
         'Perl6::Export::Attrs' => 0,
+        'List::MoreUtils'      => 0,
     },
     add_to_cleanup => ['ParseUtil-*'],
     tld_data_files =>
