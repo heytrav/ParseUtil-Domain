@@ -70,11 +70,12 @@ my $builder = $class->new(
         'Test::Perl::Critic'           => 0,
         'Net::IDN::Encode'             => 0,
         'Unicode::CharName'            => 0,
+        'List::MoreUtils'              => 0,
     },
     requires => {
         'version'              => 0.77,
         'Net::IDN::Encode'     => 0,
-        'Net::IDN::Nameprep'    => 0,
+        'Net::IDN::Nameprep'   => 0,
         'Net::IDN::Punycode'   => 0,
         'Perl6::Export::Attrs' => 0,
     },
