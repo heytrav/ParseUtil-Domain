@@ -59,6 +59,7 @@ my $builder = $class->new(
     dist_author          => 'William Travis Holton <wtravisholton@yahoo.de>',
     dist_version_from    => 'lib/ParseUtil/Domain.pm',
     recursive_test_files => 1,
+    repository => '',
     build_requires       => {
         'Regexp::Assemble::Compressed' => 0,
         'Perl::Critic'                 => 0,

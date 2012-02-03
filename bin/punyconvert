@@ -32,11 +32,11 @@ __END__
 
 =head1 NAME
 
-    convertpuny - Commandline puny en/decoder.
+    punyconvert - Commandline puny en/decoder.
 
 =head1 USAGE
 
-    convertpuny xn--fa-hia.de
+    punyconvert xn--fa-hia.de
     faß.de
 
 =head1 DESCRIPTION
