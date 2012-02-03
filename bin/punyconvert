@@ -3,7 +3,6 @@
 use strict;
 use warnings;
 
-
 use feature qw/say switch/;
 
 use ParseUtil::Domain ':parse';
@@ -27,11 +26,17 @@ foreach my $domain (@input) {
             @keys = qw/domain_ace zone_ace/;
         }
     }
-    my $parsed = parse_domain($domain);
-    say join "." => @{$parsed}{@keys};
+    my $parsed;
+    local $@;
+    eval {
+        $parsed = parse_domain($domain);
+        say join "." => @{$parsed}{@keys};
+    };
+    if ( my $e = $@ ) {
+        print STDERR $domain.":\t".$e;
+    }
 }
 exit(0);
-
 
 __END__
 
