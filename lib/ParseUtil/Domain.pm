@@ -16,6 +16,8 @@ use Net::IDN::Nameprep;
 use List::MoreUtils qw/any/;
 use Carp;
 
+use feature 'switch';
+
 #use Smart::Comments;
 use YAML;
 use utf8;
@@ -53,6 +55,23 @@ sub parse_domain : Export(:parse) {
     }
     return $puny_processed;
 
+}
+
+sub puny_convert : Export(:simple) {
+    my $domain = shift;
+    my @keys;
+    given ($domain) {
+        when (/\.?xn--/) {
+            @keys = qw/domain zone/;
+        }
+        default {
+            @keys = qw/domain_ace zone_ace/;
+        }
+    }
+    my $parsed = parse_domain($domain);
+    my $parsed_domain = join "." => @{$parsed}{@keys};
+
+    return $parsed_domain;
 }
 
 sub _find_zone {
@@ -112,7 +131,8 @@ sub _punycode_segments {
         my $puny_encoded =
           [ map { domain_to_ascii( nameprep( lc $_ ) ) } @{$domain_segments} ];
         my $puny_decoded = [ map { domain_to_unicode($_) } @{$puny_encoded} ];
-        croak "Undefined mapping!" if any { lc $_ ne nameprep(lc $_) } @{$puny_decoded};
+        croak "Undefined mapping!"
+          if any { lc $_ ne nameprep( lc $_ ) } @{$puny_decoded};
         return {
             domain     => ( join "." => @{$puny_decoded} ),
             domain_ace => ( join "." => @{$puny_encoded} )
@@ -299,7 +319,7 @@ The Public Suffix List at http://publicsuffix.org/list/
 =over 3
 
 =item *
-Added a script for command line conversion.
+Added a script called c<punyconvert> for command line conversion.
 
 =item *
 I<croak> whenever the domain can't be mapped back to itself.
