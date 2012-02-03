@@ -162,8 +162,7 @@ __END__
 
 =encoding utf8
 
-ParseUtil::Domain - Utility for parsing a domain name into its constituent
-components.
+ParseUtil::Domain - Utility for parsing a domain name into its components.
 
 =head1 SYNOPSIS
 
@@ -183,9 +182,9 @@ components.
 
 Just another tool for parsing domain names.  This module makes use of the data
 provided by the I<Public Suffix List> (http://publicsuffix.org/list/) to parse
-tlds.  For completeness it tries to provide the respective puny encoded and decoded
-domain and tld part of a domain name.  This includes proper handling of the
-B<LATIN SHARP S> which is now allowed by DENIC eG (.de).
+tlds.  
+
+It also provides respective puny encoded and decoded versions of the parsed domain.
 
 
 =head1 INTERFACE
@@ -297,7 +296,12 @@ The Public Suffix List at http://publicsuffix.org/list/
 
 =head1 CHANGES
 
-Added several of the I<anticipated> new TLDs (nTLDs) to the parser.
+=over 3
 
+=item *
+Added a script for command line conversion.
 
+=item *
+I<croak> whenever the domain can't be mapped back to itself.
 
+=back
