@@ -3730,6 +3730,9 @@ zakopane.pl
 // co.pl : Mainseek Sp. z o.o. http://www.co.pl
 co.pl
 
+http://en.wikipedia.org/wiki/.pm
+pm
+
 // pn : http://www.government.pn/PnRegistry/policies.htm
 pn
 gov.pn
@@ -4695,6 +4698,9 @@ health.vn
 // list of 2nd level tlds ?
 vu
 
+http://en.wikipedia.org/wiki/.wf
+wf
+
 // ws : http://en.wikipedia.org/wiki/.ws
 // http://samoanic.ws/index.dhtml
 ws
@@ -4703,6 +4709,9 @@ net.ws
 org.ws
 gov.ws
 edu.ws
+
+http://en.wikipedia.org/wiki/.yt
+yt
 
 // IDN ccTLDs
 // Please sort by ISO 3166 ccTLD, then punicode string
