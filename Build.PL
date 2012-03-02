@@ -71,6 +71,7 @@ my $builder = $class->new(
         'Test::Perl::Critic'           => 0,
         'Net::IDN::Encode'             => 2.003,
         'Unicode::CharName'            => 1.07,
+        'Test::Routine'                => 0,
     },
     requires => {
         'version'              => 0.77,
