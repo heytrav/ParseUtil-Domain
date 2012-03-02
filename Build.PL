@@ -72,6 +72,7 @@ my $builder = $class->new(
         'Net::IDN::Encode'             => 2.003,
         'Unicode::CharName'            => 1.07,
         'Test::Routine'                => 0,
+        'namespace::autoclean'         => 0,
     },
     requires => {
         'version'              => 0.77,
