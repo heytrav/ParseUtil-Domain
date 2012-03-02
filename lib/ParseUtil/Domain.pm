@@ -210,21 +210,18 @@ It also provides respective puny encoded and decoded versions of the parsed doma
 =head1 INTERFACE
 
 
-
 =head2 parse_domain
+
 
 =over 2
 
 =item
-Arguments
+parse_domain(C<string>)
 
 
 =over 3
 
 =item
-C<string>
-
-
 Examples:
 
   1. 'somedomain.com' 
@@ -249,36 +246,36 @@ C<HASHREF>
 Examples:
   
   1.
-  { 
-    domain => 'somedomain',
-    zone => 'com',
-    domain_ace => 'somedomain',
-    zone_ace => 'com'
-   }
+    {
+        domain     => 'somedomain',
+        zone       => 'com',
+        domain_ace => 'somedomain',
+        zone_ace   => 'com'
+    }
 
   2.
-  { 
-    domain => 'test',
-    zone => 'ไทย',
-    domain_ace => 'test',
-    zone_ace => 'xn--o3cw4h'
-   }
+    {
+        domain     => 'test',
+        zone       => 'ไทย',
+        domain_ace => 'test',
+        zone_ace   => 'xn--o3cw4h'
+    }
 
   3.
-  { 
-    domain => 'bloss',
-    zone => 'co.at',
-    domain_ace => 'bloss',
-    zone_ace => 'co.at'
-   }
+    {
+        domain     => 'bloss',
+        zone       => 'co.at',
+        domain_ace => 'bloss',
+        zone_ace   => 'co.at'
+    }
 
   4.
-  { 
-    domain => 'bloß',
-    zone => 'de',
-    domain_ace => 'xn--blo-7ka',
-    zone_ace => 'de'
-   }
+    {
+        domain     => 'bloß',
+        zone       => 'de',
+        domain_ace => 'xn--blo-7ka',
+        zone_ace   => 'de'
+    }
 
 
 
