@@ -189,12 +189,13 @@ ParseUtil::Domain - Utility for parsing a domain name into its components.
   use ParseUtil::Domain ':parse';
 
     my $processed = parse_domain("somedomain.com");
-    $processed == { 
-        domain => 'somedomain',
-        domain_ace => 'somedomain',
-        zone => 'com',
-        zone_ace => 'com'
-    }
+    #$processed:
+    #{ 
+        #domain => 'somedomain',
+        #domain_ace => 'somedomain',
+        #zone => 'com',
+        #zone_ace => 'com'
+    #}
 
 
 =head1 DESCRIPTION
