@@ -1,13 +1,10 @@
 package ToggleTester;
 
 use Test::Routine;
-
 use Test::More;
-use Test::Deep;
+use Test::Deep ();
 use Test::Exception;
 use namespace::autoclean;
-
-use ParseUtil::Domain ':simple';
 
 has domains_to_test => (
     is      => 'ro',
@@ -15,8 +12,12 @@ has domains_to_test => (
     builder => 'get_domains_to_test'
 );
 
+test can_load_parser => { desc => 'Make sure we can load class' } => sub {
+    use_ok( 'ParseUtil::Domain', qw/:simple/ )
+      or BAIL_OUT("Can't load parser.");
+};
 
-test => puny_toggle => { desc => 'Toggle unicode <-> ascii domains' } => sub {
+test puny_toggle => { desc => 'Toggle unicode <-> ascii domains' } => sub {
     my ($self) = @_;
 
     my $domains_to_test = $self->domains_to_test();
@@ -27,7 +28,6 @@ test => puny_toggle => { desc => 'Toggle unicode <-> ascii domains' } => sub {
         'No problems parsing domain';
     }
 };
-
 
 1;
 
