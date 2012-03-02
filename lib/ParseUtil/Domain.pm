@@ -216,7 +216,7 @@ It also provides respective puny encoded and decoded versions of the parsed doma
 =over 2
 
 =item
-parse_domain(C<string>)
+parse_domain(string)
 
 
 =over 3
@@ -224,28 +224,10 @@ parse_domain(C<string>)
 =item
 Examples:
 
-  1. 'somedomain.com' 
-  2. 'test.xn--o3cw4h'
-  3. 'bloß.co.at'
-  4. 'bloß.de'
 
-
-=back
-
-
-=item
-Return
-
-=over 3
-
-
-=item
-C<HASHREF>
-
-
-Examples:
-  
-  1.
+   1. parse_domain('somedomain.com');
+ 
+    Result:
     {
         domain     => 'somedomain',
         zone       => 'com',
@@ -253,7 +235,9 @@ Examples:
         zone_ace   => 'com'
     }
 
-  2.
+  2. parse_domain('test.xn--o3cw4h');
+
+    Result: 
     {
         domain     => 'test',
         zone       => 'ไทย',
@@ -261,7 +245,9 @@ Examples:
         zone_ace   => 'xn--o3cw4h'
     }
 
-  3.
+  3. parse_domain('bloß.co.at');
+
+    Result:
     {
         domain     => 'bloss',
         zone       => 'co.at',
@@ -269,15 +255,15 @@ Examples:
         zone_ace   => 'co.at'
     }
 
-  4.
+  4. parse_domain('bloß.de');
+
+    Result:
     {
         domain     => 'bloß',
         zone       => 'de',
         domain_ace => 'xn--blo-7ka',
         zone_ace   => 'de'
     }
-
-
 
 =back
 
@@ -289,8 +275,17 @@ Examples:
 
 Toggles a domain between puny encoded and decoded versions.
 
-   $puny_decoded = puny_convert($puny_encoded);
-   $puny_encoded = puny_convert($puny_decoded);
+
+   use ParseUtil::Domain ':simple';
+
+   my $result = puny_convert('bloß.de');
+   # $result: xn--blo-7ka.de
+
+   my $reverse = puny_convert('xn--blo-7ka.de');
+   # $reverse: bloß.de
+
+
+
 
 
 
