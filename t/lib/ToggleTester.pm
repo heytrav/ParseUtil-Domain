@@ -29,6 +29,7 @@ test puny_toggle => { desc => 'Toggle unicode <-> ascii domains' } => sub {
     }
 };
 
+
 1;
 
 __END__

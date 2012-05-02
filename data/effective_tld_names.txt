@@ -1,23 +1,23 @@
 // ***** BEGIN LICENSE BLOCK *****
 // Version: MPL 1.1/GPL 2.0/LGPL 2.1
-// 
-// The contents of this file are subject to the Mozilla Public License Version 
-// 1.1 (the "License"); you may not use this file except in compliance with 
-// the License. You may obtain a copy of the License at 
+//
+// The contents of this file are subject to the Mozilla Public License Version
+// 1.1 (the "License"); you may not use this file except in compliance with
+// the License. You may obtain a copy of the License at
 // http://www.mozilla.org/MPL/
-// 
+//
 // Software distributed under the License is distributed on an "AS IS" basis,
 // WITHOUT WARRANTY OF ANY KIND, either express or implied. See the License
 // for the specific language governing rights and limitations under the
 // License.
-// 
+//
 // The Original Code is the Public Suffix List.
-// 
+//
 // The Initial Developer of the Original Code is
 // Jo Hermans <jo.hermans@gmail.com>.
 // Portions created by the Initial Developer are Copyright (C) 2007
 // the Initial Developer. All Rights Reserved.
-// 
+//
 // Contributor(s):
 //   Ruben Arakelyan <ruben@wackomenace.co.uk>
 //   Gervase Markham <gerv@gerv.net>
@@ -25,7 +25,7 @@
 //   David Triendl <david@triendl.name>
 //   Jothan Frakes <jothan@gmail.com>
 //   The kind representatives of many TLD registries
-// 
+//
 // Alternatively, the contents of this file may be used under the terms of
 // either the GNU General Public License Version 2 or later (the "GPL"), or
 // the GNU Lesser General Public License Version 2.1 or later (the "LGPL"),
@@ -37,7 +37,7 @@
 // and other provisions required by the GPL or the LGPL. If you do not delete
 // the provisions above, a recipient may use your version of this file under
 // the terms of any one of the MPL, the GPL or the LGPL.
-// 
+//
 // ***** END LICENSE BLOCK *****
 
 // ac : http://en.wikipedia.org/wiki/.ac
@@ -381,7 +381,7 @@ z.bg
 6.bg
 7.bg
 8.bg
-9.bg	 	 	
+9.bg
 
 // bh : http://en.wikipedia.org/wiki/.bh
 bh
@@ -1029,7 +1029,7 @@ org.hk
 网絡.hk
 组织.hk
 組織.hk
-組织.hk 
+組织.hk
 
 // hm : http://en.wikipedia.org/wiki/.hm
 hm
@@ -1205,9 +1205,9 @@ int.is
 it
 gov.it
 edu.it
-// list of reserved geo-names : 
+// list of reserved geo-names :
 // http://www.nic.it/documenti/regolamenti-e-linee-guida/regolamento-assegnazione-versione-6.0.pdf
-// (There is also a list of reserved geo-names corresponding to Italian 
+// (There is also a list of reserved geo-names corresponding to Italian
 // municipalities : http://www.nic.it/documenti/appendice-c.pdf , but it is
 // not included here.)
 agrigento.it
@@ -1516,7 +1516,7 @@ jobs
 // Submitted by registry <yone@jprs.co.jp> 2008-06-11
 // Updated by registry <yone@jprs.co.jp> 2008-12-04
 jp
-// jp organizational type names 
+// jp organizational type names
 ac.jp
 ad.jp
 co.jp
@@ -2666,7 +2666,7 @@ nl
 // no : http://www.norid.no/regelverk/index.en.html
 // The Norwegian registry has declined to notify us of updates. The web pages
 // referenced below are the official source of the data. There is also an
-// announce mailing list: 
+// announce mailing list:
 // https://postlister.uninett.no/sympa/info/norid-diskusjon
 no
 // Norid generic domains : http://www.norid.no/regelverk/vedlegg-c.en.html
@@ -4632,9 +4632,9 @@ lib.wi.us
 lib.wv.us
 lib.wy.us
 
-// k12.ma.us contains school districts in Massachusetts. The 4LDs are 
+// k12.ma.us contains school districts in Massachusetts. The 4LDs are
 //  managed indepedently except for private (PVT), charter (CHTR) and
-//  parochial (PAROCH) schools.  Those are delegated dorectly to the 
+//  parochial (PAROCH) schools.  Those are delegated dorectly to the
 //  5LD operators.   <k12-ma-hostmaster _ at _ rsuc.gweep.net>
 pvt.k12.ma.us
 chtr.k12.ma.us
@@ -4724,7 +4724,7 @@ yt
 //http://nic.ae/english/arabicdomain/rules.jsp
 امارات
 
-// xn--fiqs8s ("China" Chinese-Han-Simplified <.Zhonggou>) : CN 
+// xn--fiqs8s ("China" Chinese-Han-Simplified <.Zhonggou>) : CN
 // CNNIC
 // http://cnnic.cn/html/Dir/2005/10/11/3218.htm
 中国
@@ -4747,7 +4747,7 @@ yt
 個人.香港
 
 //xn--mgbayh7gpa ("al-Ordon" Arabic) JO
-//National Information Technology Center (NITC) 
+//National Information Technology Center (NITC)
 //Royal Scientific Society, Al-Jubeiha
 الاردن
 
@@ -4770,7 +4770,7 @@ yt
 
 // xn--wgbl6a ("Qatar" Arabic) : QA
 // http://www.ict.gov.qa/
-قطر 
+قطر
 
 // xn--mgberp4a5d4ar ("AlSaudiah" Arabic) : SA
 // http://www.nic.net.sa/
@@ -4898,60 +4898,61 @@ free
 gal
 gay
 gmbh
-green 
-hamburg 
-health 
+green
+hamburg
+health
 hitachi
-hiv 
-horse 
-hotel 
-irish 
-ker 
-koeln 
-london 
-love 
-madrid 
+hiv
+horse
+hotel
+irish
+ker
+kiwi
+koeln
+london
+love
+madrid
 med
-miami 
-mls 
-money 
-moscow 
-music 
-naples 
-ngo 
+miami
+mls
+money
+moscow
+music
+naples
+ngo
 now
-nyc 
-one 
-pad 
-paris 
-peace 
-phone 
+nyc
+one
+pad
+paris
+peace
+phone
 post
-quebec 
-radio 
-real 
-roma 
-saarland 
-sco 
-scot 
-secure 
-sfo 
-shop 
-sic 
-site 
-skate 
-ski 
-sport 
-surf 
+quebec
+radio
+real
+roma
+saarland
+sco
+scot
+secure
+sfo
+shop
+sic
+site
+skate
+ski
+sport
+surf
 unicef
 usa
-val 
-vegas 
-ven 
-versicherung 
+val
+vegas
+ven
+versicherung
 vin
 vino
 vote
-web 
-wine 
+web
+wine
 xxx
