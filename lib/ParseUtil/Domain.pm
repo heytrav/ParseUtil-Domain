@@ -319,6 +319,10 @@ The Public Suffix List at http://publicsuffix.org/list/
 =over 3
 
 =item *
+Added .kiwi
+
+
+=item *
 Added a subroutine L<puny_convert|ParseUtil::Domain/"puny_convert"> that
 I<toggles> back and forth between puny encoded and decoded versions of a
 domain.
