@@ -1,4 +1,4 @@
-package ParseUtil::Domain 2.16;
+package ParseUtil::Domain 2.16001;
 
 use strict;
 use warnings;
