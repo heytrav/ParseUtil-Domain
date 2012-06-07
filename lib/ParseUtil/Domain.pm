@@ -1,7 +1,12 @@
-package ParseUtil::Domain 2.16001;
+package ParseUtil::Domain;
 
 use strict;
 use warnings;
+
+## no critic
+our $VERSION = '2.17';
+$VERSION = eval $VERSION;
+## use critic
 
 
 use Perl6::Export::Attrs;
