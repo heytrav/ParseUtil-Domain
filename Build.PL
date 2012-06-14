@@ -46,7 +46,7 @@ sub reverse_puny_encode {    #{{{
         warn "Unable to process $object.\n"
         ."Please report this error to package author.";
     }
-    
+
     my $reverse_joined = join "." => @reversed_segments;
     return { object => $reverse_joined, has_wildcard => $has_wildcard };
 }    #}}}
@@ -60,6 +60,7 @@ my $builder = $class->new(
     dist_version_from    => 'lib/ParseUtil/Domain.pm',
     recursive_test_files => 1,
     repository           => 'git://github.com/heytrav/ParseUtil-Domain.git',
+    configure_requires   => { 'Module::Build' => 0.4 },
     build_requires       => {
         'Regexp::Assemble::Compressed' => 0,
         'Perl::Critic'                 => 0,
