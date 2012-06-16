@@ -317,13 +317,14 @@ The Public Suffix List at http://publicsuffix.org/list/
 
 =head1 CHANGES
 
+
 =over 3
 
-=item *
-Added .design
 
 =item *
-Added .kiwi
+gTLDs
+
+.bcm, .design, .kiwi and several others
 
 
 =item *
@@ -332,7 +333,7 @@ I<toggles> back and forth between puny encoded and decoded versions of a
 domain.
 
 =item *
-Added a script called c<punyconvert> for command line conversion.
+Added a script called C<punyconvert> for command line conversion.
 
 =item *
 I<croak> whenever the domain can't be mapped back to itself.
