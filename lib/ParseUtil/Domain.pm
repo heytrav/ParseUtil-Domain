@@ -116,7 +116,7 @@ sub _find_zone {
         push @zone_params, zone_ace => $tld_zone_ace;
         $zone = $tld;
     }
-    die "Could not find tld." unless $zone;
+    croak "Could not find tld." unless $zone;
     my $unicode_zone = domain_to_unicode($zone);
     return {
         zone   => $unicode_zone,
@@ -191,7 +191,7 @@ ParseUtil::Domain - Utility for parsing a domain name into its components.
 
     my $processed = parse_domain("somedomain.com");
     #$processed:
-    #{ 
+    #{
         #domain => 'somedomain',
         #domain_ace => 'somedomain',
         #zone => 'com',
@@ -204,7 +204,7 @@ ParseUtil::Domain - Utility for parsing a domain name into its components.
 
 A tool for parsing domain names.  This module makes use of the data
 provided by the I<Public Suffix List> (http://publicsuffix.org/list/) to parse
-tlds.  
+tlds.
 
 It also provides respective puny encoded and decoded versions of the parsed domain.
 
@@ -228,7 +228,7 @@ Examples:
 
 
    1. parse_domain('somedomain.com');
- 
+
     Result:
     {
         domain     => 'somedomain',
@@ -239,7 +239,7 @@ Examples:
 
   2. parse_domain('test.xn--o3cw4h');
 
-    Result: 
+    Result:
     {
         domain     => 'test',
         zone       => 'ไทย',
