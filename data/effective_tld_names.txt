@@ -4875,6 +4875,7 @@ co.nl
 // Proposed new TLDs
 
 africa
+app
 athens
 auto
 bank
@@ -4889,6 +4890,7 @@ bzh
 california
 canon
 car
+city
 cymru
 deloitte
 design
@@ -4906,10 +4908,12 @@ gmbh
 green
 hamburg
 health
+help
 hitachi
 hiv
 horse
 hotel
+immobilien
 irish
 ker
 kiwi
@@ -4939,6 +4943,7 @@ post
 quebec
 radio
 real
+reise
 roma
 saarland
 sco
@@ -4969,4 +4974,3 @@ website
 wien
 wine
 xxx
-
