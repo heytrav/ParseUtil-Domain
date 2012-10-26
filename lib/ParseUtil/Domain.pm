@@ -4,10 +4,9 @@ use strict;
 use warnings;
 
 ## no critic
-our $VERSION = '2.20001';
+our $VERSION = '2.21';
 $VERSION = eval $VERSION;
 ## use critic
-
 
 use Perl6::Export::Attrs;
 use ParseUtil::Domain::ConfigData;
@@ -127,10 +126,17 @@ sub _find_zone {
 
 sub _punycode_segments {
     my ( $domain_segments, $zone ) = @_;
-
     if ( not $zone or $zone !~ /^de$/ ) {
-        my $puny_encoded =
-          [ map { domain_to_ascii( nameprep( lc $_ ) ) } @{$domain_segments} ];
+        my $puny_encoded = [];
+        foreach my $segment ( @{$domain_segments} ) {
+            croak
+              "Error processing domain. Please report to package maintainer."
+              if not $segment
+              or $segment eq '';
+            my $nameprepped = nameprep( lc $segment );
+            my $ascii       = domain_to_ascii($nameprepped);
+            push @{$puny_encoded}, $ascii;
+        }
         my $puny_decoded = [ map { domain_to_unicode($_) } @{$puny_encoded} ];
         croak "Undefined mapping!"
           if any { lc $_ ne nameprep( lc $_ ) } @{$puny_decoded};
