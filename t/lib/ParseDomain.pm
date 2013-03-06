@@ -64,7 +64,7 @@ sub t010_split_ascii_domain_tld : Test(15) {
 
 }
 
-sub t020_split_unicode_domain_tld : Test(20) {
+sub t020_split_unicode_domain_tld : Test(24) {
     my $self          = shift;
     my $domain_to_ace = [
         {
@@ -125,6 +125,18 @@ sub t020_split_unicode_domain_tld : Test(20) {
             decoded => 'faß.de',
             ace     => 'xn--fa-hia.de',
             raw     => 'xn--fa-hia.de'
+
+        },
+        {
+            decoded => 'faß.fr',
+            ace     => 'xn--fa-hia.fr',
+            raw     => 'xn--fa-hia.fr'
+
+        },
+        {
+            decoded => 'faß.yt',
+            ace     => 'xn--fa-hia.yt',
+            raw     => 'xn--fa-hia.yt'
 
         },
 
