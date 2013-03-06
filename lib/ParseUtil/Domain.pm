@@ -86,7 +86,7 @@ sub _find_zone {
       map { domain_to_ascii( nameprep $_) } $sld, $tld;
     my $thld_zone_ace;
     $thld_zone_ace = domain_to_ascii( nameprep $thld) if $thld;
-    if ( $tld =~ /^de$/ ) {
+    if ( $tld =~ /^(?:de|fr|pm|re|tf|wf|yt)$/ ) {
         ### is a de domain
         $possible_tld = join "." => $tld, _puny_encode($sld);
     }
@@ -126,7 +126,7 @@ sub _find_zone {
 
 sub _punycode_segments {
     my ( $domain_segments, $zone ) = @_;
-    if ( not $zone or $zone !~ /^(de|fr|pm|re|tf|wf|yt)$/ ) {
+    if ( not $zone or $zone !~ /^(?:de|fr|pm|re|tf|wf|yt)$/ ) {
         my $puny_encoded = [];
         foreach my $segment ( @{$domain_segments} ) {
             croak
