@@ -126,7 +126,7 @@ sub _find_zone {
 
 sub _punycode_segments {
     my ( $domain_segments, $zone ) = @_;
-    if ( not $zone or $zone !~ /^de$/ ) {
+    if ( not $zone or $zone !~ /^(de|fr|pm|re|tf|wf|yt)$/ ) {
         my $puny_encoded = [];
         foreach my $segment ( @{$domain_segments} ) {
             croak
