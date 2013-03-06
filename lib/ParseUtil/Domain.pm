@@ -86,7 +86,7 @@ sub _find_zone {
       map { domain_to_ascii( nameprep $_) } $sld, $tld;
     my $thld_zone_ace;
     $thld_zone_ace = domain_to_ascii( nameprep $thld) if $thld;
-    if ( $tld =~ /^(?:de|fr|pm|re|tf|wf|yt)$/ ) {
+    if ( $tld =~ /^de$/ ) {
         ### is a de domain
         $possible_tld = join "." => $tld, _puny_encode($sld);
     }
