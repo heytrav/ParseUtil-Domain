@@ -1,7 +1,6 @@
 package ParseUtil::Domain;
 
-use strict;
-use warnings;
+use perl5i
 
 ## no critic
 our $VERSION = '2.26';
@@ -14,13 +13,10 @@ use Net::IDN::Encode ':all';
 use Net::IDN::Punycode ':all';
 use Net::IDN::Nameprep;
 use List::MoreUtils qw/any/;
-use Carp;
 
-use feature 'switch';
 
 #use Smart::Comments;
 #use YAML;
-use utf8;
 
 sub parse_domain : Export(:parse) {
     my $name = shift;
