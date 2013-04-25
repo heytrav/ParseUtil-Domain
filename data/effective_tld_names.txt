@@ -6032,6 +6032,8 @@ org.ug
 // Submitted by registry <noc@nominet.org.uk> 2012-10-02
 // and tweaked by us pending further consultation.
 *.uk
+*.nhs.uk
+*.police.uk
 *.sch.uk
 !bl.uk
 !british-library.uk
