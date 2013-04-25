@@ -4,10 +4,9 @@ use strict;
 use warnings;
 
 ## no critic
-our $VERSION = '2.18001';
+our $VERSION = '2.23001';
 $VERSION = eval $VERSION;
 ## use critic
-
 
 use Perl6::Export::Attrs;
 use ParseUtil::Domain::ConfigData;
@@ -116,7 +115,7 @@ sub _find_zone {
         push @zone_params, zone_ace => $tld_zone_ace;
         $zone = $tld;
     }
-    die "Could not find tld." unless $zone;
+    croak "Could not find tld." unless $zone;
     my $unicode_zone = domain_to_unicode($zone);
     return {
         zone   => $unicode_zone,
@@ -127,10 +126,17 @@ sub _find_zone {
 
 sub _punycode_segments {
     my ( $domain_segments, $zone ) = @_;
-
-    if ( not $zone or $zone !~ /^de$/ ) {
-        my $puny_encoded =
-          [ map { domain_to_ascii( nameprep( lc $_ ) ) } @{$domain_segments} ];
+    if ( not $zone or $zone !~ /^(?:de|fr|pm|re|tf|wf|yt)$/ ) {
+        my $puny_encoded = [];
+        foreach my $segment ( @{$domain_segments} ) {
+            croak
+              "Error processing domain. Please report to package maintainer."
+              if not $segment
+              or $segment eq '';
+            my $nameprepped = nameprep( lc $segment );
+            my $ascii       = domain_to_ascii($nameprepped);
+            push @{$puny_encoded}, $ascii;
+        }
         my $puny_decoded = [ map { domain_to_unicode($_) } @{$puny_encoded} ];
         croak "Undefined mapping!"
           if any { lc $_ ne nameprep( lc $_ ) } @{$puny_decoded};
@@ -191,7 +197,7 @@ ParseUtil::Domain - Utility for parsing a domain name into its components.
 
     my $processed = parse_domain("somedomain.com");
     #$processed:
-    #{ 
+    #{
         #domain => 'somedomain',
         #domain_ace => 'somedomain',
         #zone => 'com',
@@ -204,7 +210,7 @@ ParseUtil::Domain - Utility for parsing a domain name into its components.
 
 A tool for parsing domain names.  This module makes use of the data
 provided by the I<Public Suffix List> (http://publicsuffix.org/list/) to parse
-tlds.  
+tlds.
 
 It also provides respective puny encoded and decoded versions of the parsed domain.
 
@@ -228,7 +234,7 @@ Examples:
 
 
    1. parse_domain('somedomain.com');
- 
+
     Result:
     {
         domain     => 'somedomain',
@@ -239,7 +245,7 @@ Examples:
 
   2. parse_domain('test.xn--o3cw4h');
 
-    Result: 
+    Result:
     {
         domain     => 'test',
         zone       => 'ไทย',
