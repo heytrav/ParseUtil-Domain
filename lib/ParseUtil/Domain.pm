@@ -4,7 +4,7 @@ use strict;
 use warnings;
 
 ## no critic
-our $VERSION = '2.24';
+our $VERSION = '2.26';
 $VERSION = eval $VERSION;
 ## use critic
 
@@ -189,7 +189,7 @@ __END__
 
 =encoding utf8
 
-ParseUtil::Domain - Utility for parsing a domain name into its components.
+ParseUtil::Domain - Domain parser and puny encoder/decoder.
 
 =head1 SYNOPSIS
 
@@ -208,11 +208,14 @@ ParseUtil::Domain - Utility for parsing a domain name into its components.
 =head1 DESCRIPTION
 
 
-A tool for parsing domain names.  This module makes use of the data
-provided by the I<Public Suffix List> (http://publicsuffix.org/list/) to parse
-tlds.
+This purpose of this module is to parse a domain name into its respective name and tld. Note that
+the I<tld> may actually refer to a second or third level domain (i.e. co.uk or
+plc.co.im).  It also provides respective puny encoded and decoded versions of
+the parsed domain.
 
-It also provides respective puny encoded and decoded versions of the parsed domain.
+This module makes use of the data provided by the I<Public Suffix List>
+(L<http://publicsuffix.org/list/>) to parse tlds.
+
 
 
 =head1 INTERFACE
@@ -315,7 +318,7 @@ L<Regexp::Assemble::Compressed>
 
 
 =item
-The Public Suffix List at http://publicsuffix.org/list/
+The Public Suffix List at L<http://publicsuffix.org/list/>.
 
 
 =back
@@ -331,7 +334,7 @@ The Public Suffix List at http://publicsuffix.org/list/
 Updated public suffix list.
 
 =item *
-Added a bunch of new TLDs
+Added a bunch of new TLDs (nTLDs).
 
 
 
