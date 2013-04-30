@@ -137,12 +137,11 @@ func _punycode_segments($domain_segments,$zone) {
             push @{$puny_encoded}, $ascii;
         }
         my $puny_decoded = [ map { domain_to_unicode($_) } @{$puny_encoded} ];
-        croak "Undefined mapping!" if
-        $puny_decoded->any(sub { lc $_ ne nameprep( lc $_ )  });
-          #if any { lc $_ ne nameprep( lc $_ ) } @{$puny_decoded};
+        croak "Undefined mapping!"
+            if $puny_decoded->any(sub { lc $_ ne nameprep( lc $_ )  });
         return {
-            domain     => ( join "." => @{$puny_decoded} ),
-            domain_ace => ( join "." => @{$puny_encoded} )
+            domain     => $puny_decoded->join("."),
+            domain_ace => $puny_encoded->join(".")
         };
     }
 
@@ -151,8 +150,8 @@ func _punycode_segments($domain_segments,$zone) {
     my $puny_encoded = [ map { _puny_encode( lc $_ ) } @{$domain_segments} ];
     my $puny_decoded = [ map { _puny_decode($_) } @{$puny_encoded} ];
     return {
-        domain     => ( join "." => @{$puny_decoded} ),
-        domain_ace => ( join "." => @{$puny_encoded} )
+        domain     => $puny_decoded->join("."),
+        domain_ace => $puny_encoded->join(".")
     };
 
 }
