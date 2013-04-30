@@ -1,18 +1,18 @@
 package ParseUtil::Domain;
 
-use perl5i
 
 ## no critic
-our $VERSION = '2.26';
+our $VERSION = '2.26_001';
 $VERSION = eval $VERSION;
 ## use critic
+
+use perl5i::2;
 
 use Perl6::Export::Attrs;
 use ParseUtil::Domain::ConfigData;
 use Net::IDN::Encode ':all';
 use Net::IDN::Punycode ':all';
 use Net::IDN::Nameprep;
-use List::MoreUtils qw/any/;
 
 
 #use Smart::Comments;
@@ -23,14 +23,15 @@ sub parse_domain : Export(:parse) {
     $name =~ s/\s//gs;
     open my $utf8h, "<:encoding(utf8)", \$name;
     my $utf8_name = do { local $/; <$utf8h>; };
-    close $utf8h;
-    my @name_segments = split /\Q@\E/, $utf8_name;
+    $utf8h->close;
+    my @name_segments = $utf8_name->split(qr{\Q@\E});
     ### namesegments : Dump(\@name_segments)
 
-    my @segments = split /[\.\x{FF0E}\x{3002}\x{FF61}]/, $name_segments[-1];
+    my @segments = $name_segments[-1]->split(qr/[\.\x{FF0E}\x{3002}\x{FF61}]/);
     ### executing with : $name
     my ( $zone, $zone_ace, $domain_segments ) =
-      @{ _find_zone( \@segments ) }{qw/zone zone_ace domain/};
+      _find_zone( \@segments )->slice(qw/zone zone_ace domain/);
+
     ### found zone : $zone
     ### found zone_ace : $zone_ace
 
@@ -41,12 +42,14 @@ sub parse_domain : Export(:parse) {
     if ( @name_segments > 1 ) {
         my $punycoded_name = _punycode_segments( [ $name_segments[0] ], $zone );
         my ( $name_domain, $name_ace ) =
-          @{$punycoded_name}{qw/domain domain_ace/};
-        $puny_processed->{domain} = join '@' => $name_domain,
-          $puny_processed->{domain};
+          $punycoded_name->slice(qw/domain domain_ace/);
+
+        $puny_processed->{domain} =
+          [ $name_domain, $puny_processed->{domain} ]->join('@');
         if ($name_ace) {
-            $puny_processed->{domain_ace} = join '@' => $name_ace,
-              $puny_processed->{domain_ace};
+            $puny_processed->{domain_ace} =
+              [ $name_ace, $puny_processed->{domain_ace} ]->join('@');
+
         }
     }
     return $puny_processed;
@@ -65,17 +68,17 @@ sub puny_convert : Export(:simple) {
         }
     }
     my $parsed = parse_domain($domain);
-    my $parsed_domain = join "." => @{$parsed}{@keys};
+    my $parsed_domain = $parsed->slice(@keys)->join(".");
 
     return $parsed_domain;
 }
 
-sub _find_zone {
-    my $domain_segments = shift;
+func _find_zone($domain_segments) {
+
     my $tld_regex       = ParseUtil::Domain::ConfigData->config('tld_regex');
-    my $tld             = pop @{$domain_segments};
-    my $sld             = pop @{$domain_segments};
-    my $thld            = pop @{$domain_segments};
+    my $tld             = @{$domain_segments}->pop;
+    my $sld             = @{$domain_segments}->pop;
+    my $thld            = @{$domain_segments}->pop;
 
     my ( $possible_tld, $possible_thld );
     my ( $sld_zone_ace, $tld_zone_ace ) =
@@ -120,8 +123,8 @@ sub _find_zone {
     };
 }
 
-sub _punycode_segments {
-    my ( $domain_segments, $zone ) = @_;
+func _punycode_segments($domain_segments,$zone) {
+
     if ( not $zone or $zone !~ /^(?:de|fr|pm|re|tf|wf|yt)$/ ) {
         my $puny_encoded = [];
         foreach my $segment ( @{$domain_segments} ) {
@@ -134,8 +137,9 @@ sub _punycode_segments {
             push @{$puny_encoded}, $ascii;
         }
         my $puny_decoded = [ map { domain_to_unicode($_) } @{$puny_encoded} ];
-        croak "Undefined mapping!"
-          if any { lc $_ ne nameprep( lc $_ ) } @{$puny_decoded};
+        croak "Undefined mapping!" if
+        $puny_decoded->any(sub { lc $_ ne nameprep( lc $_ )  });
+          #if any { lc $_ ne nameprep( lc $_ ) } @{$puny_decoded};
         return {
             domain     => ( join "." => @{$puny_decoded} ),
             domain_ace => ( join "." => @{$puny_encoded} )
@@ -153,8 +157,8 @@ sub _punycode_segments {
 
 }
 
-sub _puny_encode {
-    my $unencoded = shift;
+func _puny_encode($unencoded) {
+
     ### encoding : $unencoded
     # quick check to make sure that domain should be decoded
     my $temp_unencoded = nameprep $unencoded;
@@ -164,8 +168,7 @@ sub _puny_encode {
     return "xn--" . encode_punycode($unencoded);
 }
 
-sub _puny_decode {
-    my $encoded = shift;
+func _puny_decode($encoded) {
     return $encoded unless $encoded =~ /xn--/;
     $encoded =~ s/^xn--//;
     ### decoding : $encoded
