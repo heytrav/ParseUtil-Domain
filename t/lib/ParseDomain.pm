@@ -10,12 +10,13 @@ use Test::More;
 #use Test::Deep ();
 use Test::Exception;
 use utf8;
+
 #use YAML;
 #use Smart::Comments;
 
 use ParseUtil::Domain ':parse';
 
-sub t010_split_ascii_domain_tld : Test(15) {
+sub t010_split_ascii_domain_tld : Test(27) {
     my $self         = shift;
     my $test_domains = [
 
@@ -40,6 +41,12 @@ sub t010_split_ascii_domain_tld : Test(15) {
         { raw => 'me.whatever.name', domain => 'me.whatever', zone => 'name' },
         { raw => 'me@whatever.name', domain => 'me@whatever', zone => 'name' },
         { raw => 'mx01.whatever.it', domain => 'mx01.whatever', zone => 'it' },
+        { raw => 'my.domain.shop',   domain => 'my.domain', zone => 'shop' },
+        { raw => 'my-domain.web',    domain => 'my-domain', zone => 'web' },
+        { raw => 'my-domain.one',    domain => 'my-domain', zone => 'one' },
+        { raw => 'my-domain.city',   domain => 'my-domain', zone => 'city' },
+        { raw => 'my-domain.gay',    domain => 'my-domain', zone => 'gay' },
+        { raw => 'my-domain.london', domain => 'my-domain', zone => 'london' },
 
     ];
 
@@ -158,18 +165,16 @@ sub t020_split_unicode_domain_tld : Test(24) {
     }
 }
 
-sub t100_undefined_mappings :Test(1) {
+sub t100_undefined_mappings : Test(1) {
     my $self = shift;
-    
-    my $test_domain =  'xn--blo-7ka.com' ;
+
+    my $test_domain = 'xn--blo-7ka.com';
     throws_ok {
-       my $result =  parse_domain($test_domain);
-       ### result : Dump($result)
-    } qr/Undefined mapping/,  "Mapping should not be defined.";
+        my $result = parse_domain($test_domain);
+        ### result : Dump($result)
+    }
+    qr/Undefined mapping/, "Mapping should not be defined.";
 
-    
 }
-
-
 
 1;
