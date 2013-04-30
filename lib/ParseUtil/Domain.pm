@@ -177,7 +177,6 @@ func _find_zone($domain_segments) {
 
   }
 
-  "one, but we're not the same";
 
 __END__
 
