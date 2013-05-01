@@ -1,5 +1,6 @@
 package ParseUtil::Domain;
 
+
 ## no critic
 our $VERSION = '2.26_001';
 $VERSION = eval $VERSION;
@@ -14,12 +15,10 @@ use Net::IDN::Punycode ':all';
 use Net::IDN::Nameprep;
 
 #use Smart::Comments;
-#use YAML;
 
-sub parse_domain : Export(:parse) {
-    my $name = shift;
+func parse_domain($name) :Export(:parse) {
     $name =~ s/\s//gs;
-    open my $utf8h, "<:encoding(utf8)", \$name;
+    open my $utf8h, "<", \$name;
     my $utf8_name = do { local $/; <$utf8h>; };
     $utf8h->close;
     my @name_segments = $utf8_name->split(qr{\Q@\E});
@@ -54,8 +53,7 @@ sub parse_domain : Export(:parse) {
 
 }
 
-sub puny_convert : Export(:simple) {
-    my $domain = shift;
+func puny_convert($domain) :Export(:simple) {
     my @keys;
     given ($domain) {
         when (/\.?xn--/) {
@@ -74,16 +72,16 @@ sub puny_convert : Export(:simple) {
 func _find_zone($domain_segments) {
 
     my $tld_regex = ParseUtil::Domain::ConfigData->config('tld_regex');
-      my $tld     = @{$domain_segments}->pop;
-      my $sld     = @{$domain_segments}->pop;
-      my $thld    = @{$domain_segments}->pop;
+    my $tld       = $domain_segments->pop;
+    my $sld       = $domain_segments->pop;
+    my $thld      = $domain_segments->pop;
 
-      my ( $possible_tld, $possible_thld );
-      my ( $sld_zone_ace, $tld_zone_ace ) =
+    my ( $possible_tld, $possible_thld );
+    my ( $sld_zone_ace, $tld_zone_ace ) =
       map { domain_to_ascii( nameprep $_) } $sld, $tld;
-      my $thld_zone_ace;
-      $thld_zone_ace = domain_to_ascii( nameprep $thld) if $thld;
-      if ( $tld =~ /^de$/ ) {
+    my $thld_zone_ace;
+    $thld_zone_ace = domain_to_ascii( nameprep $thld) if $thld;
+    if ( $tld =~ /^de$/ ) {
         ### is a de domain
         $possible_tld = join "." => $tld, _puny_encode($sld);
     }
@@ -95,7 +93,7 @@ func _find_zone($domain_segments) {
     }
     my ( $zone, @zone_params );
 
-      if ( $possible_thld and $possible_thld =~ /\A$tld_regex\z/ ) {
+    if ( $possible_thld and $possible_thld =~ /\A$tld_regex\z/ ) {
         my $zone_ace = join "." => $thld_zone_ace, $sld_zone_ace, $tld_zone_ace;
         $zone = join "." => $thld, $sld, $tld;
         push @zone_params, zone_ace => $zone_ace;
@@ -113,16 +111,15 @@ func _find_zone($domain_segments) {
         $zone = $tld;
     }
     croak "Could not find tld." unless $zone;
-      my $unicode_zone = domain_to_unicode($zone);
-      return {
+    my $unicode_zone = domain_to_unicode($zone);
+    return {
         zone   => $unicode_zone,
         domain => $domain_segments,
         @zone_params
-      };
-  }
+    };
+}
 
-  func _punycode_segments( $domain_segments, $zone ) {
-
+func _punycode_segments( $domain_segments, $zone ) {
     if ( not $zone or $zone !~ /^(?:de|fr|pm|re|tf|wf|yt)$/ ) {
         my $puny_encoded = [];
         foreach my $segment ( @{$domain_segments} ) {
@@ -143,39 +140,37 @@ func _find_zone($domain_segments) {
         };
     }
 
-    # Have to avoid the nameprep step for .de domains now that DENIC has
-    # decided to allow the German "sharp S".
-    my $puny_encoded   = [ map { _puny_encode( lc $_ ) } @{$domain_segments} ];
-      my $puny_decoded = [ map { _puny_decode($_) } @{$puny_encoded} ];
-      return {
+    # Avoid nameprep step for certain tlds
+    my $puny_encoded = [ map { _puny_encode( lc $_ ) } @{$domain_segments} ];
+    my $puny_decoded = [ map { _puny_decode($_) } @{$puny_encoded} ];
+    return {
         domain     => $puny_decoded->join("."),
         domain_ace => $puny_encoded->join(".")
-      };
+    };
+}
 
-  }
-
-  func _puny_encode($unencoded) {
+func _puny_encode($unencoded) {
 
     ### encoding : $unencoded
     # quick check to make sure that domain should be decoded
     my $temp_unencoded = nameprep $unencoded;
-      ### namepreped : $temp_unencoded
-      my $test_encode = domain_to_ascii($temp_unencoded);
-      return $unencoded if $test_encode eq $unencoded;
-      return "xn--" . encode_punycode($unencoded);
-  }
+    ### namepreped : $temp_unencoded
+    my $test_encode = domain_to_ascii($temp_unencoded);
+    return $unencoded if $test_encode eq $unencoded;
+    return "xn--" . encode_punycode($unencoded);
+}
 
-  func _puny_decode($encoded) {
+func _puny_decode($encoded) {
     return $encoded
       unless $encoded =~ /xn--/;
-      $encoded =~ s/^xn--//;
-      ### decoding : $encoded
-      my $test_decode = decode_punycode($encoded);
-      ### test decode : $test_decode
-      return $encoded if $encoded eq $test_decode;
-      return decode_punycode($encoded);
+    $encoded =~ s/^xn--//;
+    ### decoding : $encoded
+    my $test_decode = decode_punycode($encoded);
+    ### test decode : $test_decode
+    return $encoded if $encoded eq $test_decode;
+    return decode_punycode($encoded);
 
-  }
+}
 
 
 __END__

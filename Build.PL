@@ -65,7 +65,6 @@ my $builder = $class->new(
         'Regexp::Assemble::Compressed' => 0,
         'Perl::Critic'                 => 0,
         'Smart::Comments'              => 0,
-        'YAML'                         => 0,
         'Test::More'                   => 0,
         'Test::Class'                  => 0,
         'Test::Deep'                   => 0,
@@ -76,7 +75,6 @@ my $builder = $class->new(
         'namespace::autoclean'         => 0,
     },
     requires => {
-        'version'              => 0.77,
         'Carp'                 => 1.17,
         'Net::IDN::Encode'     => 2.003,
         'Net::IDN::Nameprep'   => 1.101,
