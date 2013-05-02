@@ -19,7 +19,7 @@ if ($EVAL_ERROR) {
 
 my $rc_file = File::Spec->catfile('t','perlcriticrc');
 Test::Perl::Critic->import(-profile => $rc_file);
-state $num_of_tests;
-critic_ok('lib/ParseUtil/Domain.pm') and $num_of_tests++;
+my $num_of_tests;
+++$num_of_tests and critic_ok('lib/ParseUtil/Domain.pm') ;
 
 done_testing($num_of_tests);

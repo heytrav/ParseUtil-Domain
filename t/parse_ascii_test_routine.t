@@ -1,7 +1,5 @@
-#!/usr/bin/perl
+#!/usr/bin/env perl
 
-use strict;
-use warnings;
 
 use lib qw{ ./t/lib };
 
@@ -17,7 +15,3 @@ run_tests(
     'Test toggle between unicode and puny-encoded ascii',
     ['UnicodeToggle','ToggleTester']
 );
-
-
-
-

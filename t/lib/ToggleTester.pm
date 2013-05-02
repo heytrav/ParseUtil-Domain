@@ -1,5 +1,7 @@
 package ToggleTester;
 
+use perl5i::2;
+
 use Test::Routine;
 use Test::More;
 use Test::Deep ();
@@ -30,7 +32,6 @@ test puny_toggle => { desc => 'Toggle unicode <-> ascii domains' } => sub {
 };
 
 
-1;
 
 __END__
 

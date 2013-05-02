@@ -1,6 +1,7 @@
 package UnicodeToggle;
 
 use Moose;
+use perl5i::2;
 
 has get_domains_to_test => (
     is      => 'ro',
@@ -16,7 +17,6 @@ has get_domains_to_test => (
       }
 );
 
-1;
 
 __END__
 
