@@ -2,7 +2,7 @@ package ParseUtil::Domain;
 
 
 ## no critic
-our $VERSION = '2.26_002';
+our $VERSION = '2.27';
 $VERSION = eval $VERSION;
 ## use critic
 
@@ -200,13 +200,12 @@ ParseUtil::Domain - Domain parser and puny encoder/decoder.
 
 
 This purpose of this module is to parse a domain name into its respective name and tld. Note that
-the I<tld> may actually refer to a second or third level domain (i.e. co.uk or
-plc.co.im).  It also provides respective puny encoded and decoded versions of
+the I<tld> may actually refer to a second- or third-level domain, e.g. co.uk or
+plc.co.im.  It also provides respective puny encoded and decoded versions of
 the parsed domain.
 
-This module makes use of the data provided by the I<Public Suffix List>
-(L<http://publicsuffix.org/list/>) to parse tlds.
-
+This module uses TLD data from the L<Public Suffix List|http://publicsuffix.org/list/> which is included with this
+distribution.
 
 
 =head1 INTERFACE
@@ -309,7 +308,7 @@ L<Regexp::Assemble::Compressed>
 
 
 =item
-The Public Suffix List at L<http://publicsuffix.org/list/>.
+The L<Public Suffix List|http://publicsuffix.org/list/>.
 
 
 =back
@@ -322,11 +321,13 @@ The Public Suffix List at L<http://publicsuffix.org/list/>.
 
 
 =item *
-Updated public suffix list.
+Updated with latest version of the public suffix list.
 
 =item *
 Added a bunch of new TLDs (nTLDs).
 
+=item *
+Now uses L<perl5i>.
 
 
 =back

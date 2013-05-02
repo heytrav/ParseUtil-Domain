@@ -56,12 +56,16 @@ EOF
 my $builder = $class->new(
     module_name          => 'ParseUtil::Domain',
     license              => 'perl',
-    dist_author          => 'William Travis Holton <wtravisholton@yahoo.de>',
+    dist_author          => 'Trav Holton <heytrav@cpan.org>',
     dist_version_from    => 'lib/ParseUtil/Domain.pm',
     recursive_test_files => 1,
-    repository           => 'git://github.com/heytrav/ParseUtil-Domain.git',
-    configure_requires   => { 'Module::Build' => 0.4 },
-    build_requires       => {
+    meta_merge           => {
+        resources => {
+            repository => 'git://github.com/heytrav/ParseUtil-Domain.git',
+        }
+    },
+    configure_requires => { 'Module::Build' => 0.4 },
+    build_requires     => {
         'Regexp::Assemble::Compressed' => 0,
         'Perl::Critic'                 => 0,
         'Smart::Comments'              => 0,
