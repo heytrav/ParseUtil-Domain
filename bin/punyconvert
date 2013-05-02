@@ -1,14 +1,10 @@
-#!/usr/bin/perl
+#!/usr/bin/env perl
 
-use strict;
-use warnings;
 
-use feature qw/say switch/;
+use perl5i::2;
 
 use ParseUtil::Domain ':simple';
-binmode( STDOUT, "utf8" );
-binmode( STDERR, "utf8" );
-binmode( STDIN,  "utf8" );
+
 my @input;
 if (@ARGV) {
     @input = @ARGV;
@@ -32,7 +28,7 @@ __END__
 
 =head1 NAME
 
-    punyconvert - Commandline puny en/decoder.
+    punyconvert - Commandline puny encoder/decoder.
 
 =head1 USAGE
 
@@ -41,7 +37,7 @@ __END__
 
 =head1 DESCRIPTION
 
-    This just converts domains to and from puny encoding. Useful for
+    This program converts domains to and from puny encoding. Useful for
     commandline and or batch operations with text files.
 
 
