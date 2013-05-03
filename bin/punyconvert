@@ -28,6 +28,9 @@ __END__
 
 =head1 NAME
 
+
+=encoding utf8
+
     punyconvert - Commandline puny encoder/decoder.
 
 =head1 USAGE
