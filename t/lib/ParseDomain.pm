@@ -16,7 +16,7 @@ use utf8;
 
 use ParseUtil::Domain ':parse';
 
-sub t010_split_ascii_domain_tld : Test(27) {
+sub t010_split_ascii_domain_tld : Test(29) {
     my $self         = shift;
     my $test_domains = [
 
@@ -47,6 +47,7 @@ sub t010_split_ascii_domain_tld : Test(27) {
         { raw => 'my-domain.city',   domain => 'my-domain', zone => 'city' },
         { raw => 'my-domain.gay',    domain => 'my-domain', zone => 'gay' },
         { raw => 'my-domain.london', domain => 'my-domain', zone => 'london' },
+        { raw => '0.cdn.ideeli.net', domain => '0.cdn.ideeli', zone => 'net' },
 
     ];
 

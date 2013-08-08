@@ -132,7 +132,7 @@ func _punycode_segments( $domain_segments, $zone ) {
         foreach my $segment ( @{$domain_segments} ) {
             croak
               "Error processing domain. Please report to package maintainer."
-              if not $segment
+              if not defined $segment
               or $segment eq '';
             my $nameprepped = nameprep( lc $segment );
             my $ascii       = domain_to_ascii($nameprepped);
