@@ -11,17 +11,48 @@ sub process_tld_data_files {    #{{{
     my $self = shift;
     my ($tld_data_file) = keys %{ $self->{properties}->{tld_data_files} };
     open my $fh, "<:encoding(utf8)", $tld_data_file;
-    my @content = grep { $_ !~ /^(?:\!|\s+|\/)/ } <$fh>;
+    my @content = grep { $_ !~ /^(?:\s+|\/)/ } <$fh>;
     chomp @content;
     close $fh;
     my @processed_tlds = map { reverse_puny_encode($_) } @content;
 
+    my $wildcards = {};
     my $regexp_obj = Regexp::Assemble::Compressed->new();
+    
     foreach my $processed_tld (@processed_tlds) {
-        my ($object,$has_wildcard) = @{$processed_tld}{qw/object has_wildcard/};
-        my $regexp_chunk = '\Q'.$object.'\E';
-        $regexp_chunk .= '\.[^\.]+' if $has_wildcard;
-        $regexp_obj->add($regexp_chunk);
+        my ($object,$has_wildcard,$has_exclusion) = @{$processed_tld}{qw/object has_wildcard has_exclusion/};
+        my $regexp_chunk = '';
+        if( $has_wildcard && ! defined $wildcards->{ $object } ) {
+          $wildcards->{ $object } =  [];
+        }
+        elsif( $has_exclusion ) {
+          my @segments = split /\./, $object;
+          my $exclude = pop( @segments );
+          my $wildcard = join "." => @segments;
+          if( ! defined $wildcards->{$wildcard} ) {
+            $wildcards->{ $wildcard } =  [];
+          }
+          push( $wildcards->{$wildcard}, $exclude );
+        }
+        else {
+          $regexp_chunk = '\Q'.$object.'\E';
+          $regexp_obj->add($regexp_chunk);
+        }
+    }
+    # special rules for wildcards
+    foreach my $wildcard ( keys %$wildcards ) {
+      my $exclusions = $wildcards->{$wildcard}; 
+      my $regexp_chunk = '\Q'.$wildcard.'\E\.'; 
+      foreach my $exclusion ( @$exclusions ) {
+        $regexp_chunk .= '(?!'.$exclusion.'$)';
+      }
+      $regexp_chunk .= '[^\.]+';
+      $regexp_obj->add($regexp_chunk);
+
+      # still need to match on the actual wildcard
+      $regexp_chunk = '\Q'.$wildcard.'\E'; 
+      $regexp_obj->add($regexp_chunk);
+
     }
     $self->config_data(tld_regex => $regexp_obj->re());
 }    #}}}
@@ -31,7 +62,10 @@ sub reverse_puny_encode {    #{{{
     require Unicode::CharName;# q{uname};
     my $object = shift;
     my $has_wildcard = 0;
+    my $has_exclusion = 0;
     $has_wildcard = $object =~ s/\*\.//;    # remove leading "*." and flag
+    $has_exclusion = $object =~ s/\!//;    # remove leading "!." and flag
+
     $object =~ s/^[\P{Alnum}\s]*([\p{Alnum}\.]+)[\P{Alnum}\s]*$/$1/;
     my @segments = split /\./, $object;
     my @reversed_segments;
@@ -48,7 +82,7 @@ sub reverse_puny_encode {    #{{{
     }
 
     my $reverse_joined = join "." => @reversed_segments;
-    return { object => $reverse_joined, has_wildcard => $has_wildcard };
+    return { object => $reverse_joined, has_wildcard => $has_wildcard, has_exclusion => $has_exclusion };
 }    #}}}
 
 EOF
