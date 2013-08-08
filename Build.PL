@@ -32,7 +32,8 @@ sub process_tld_data_files {    #{{{
           if( ! defined $wildcards->{$wildcard} ) {
             $wildcards->{ $wildcard } =  [];
           }
-          push( $wildcards->{$wildcard}, $exclude );
+          my $exclusions = $wildcards->{$wildcard};
+          push( @$exclusions, $exclude );
         }
         else {
           $regexp_chunk = '\Q'.$object.'\E';
