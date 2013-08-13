@@ -2,7 +2,7 @@ package ParseUtil::Domain;
 
 
 ## no critic
-our $VERSION = '2.28_001';
+our $VERSION = '2.28_002';
 $VERSION = eval $VERSION;
 ## use critic
 
@@ -14,6 +14,7 @@ use Net::IDN::Encode ':all';
 use Net::IDN::Punycode ':all';
 use Net::IDN::Nameprep;
 
+#use Data::Dump qw(dump);
 #use Smart::Comments;
 
 func parse_domain($name) :Export(:parse) {
@@ -22,7 +23,7 @@ func parse_domain($name) :Export(:parse) {
     my $utf8_name = do { local $/; <$utf8h>; };
     $utf8h->close;
     my @name_segments = $utf8_name->split(qr{\Q@\E});
-    ### namesegments : Dump(\@name_segments)
+    ### namesegments : dump(\@name_segments)
 
     my @segments = $name_segments[-1]->split(qr/[\.\x{FF0E}\x{3002}\x{FF61}]/);
     ### executing with : $name
@@ -72,6 +73,7 @@ func puny_convert($domain) :Export(:simple) {
 func _find_zone($domain_segments) {
 
     my $tld_regex = ParseUtil::Domain::ConfigData->config('tld_regex');
+    ### Domain Segments: dump( $domain_segments )
     my $tld       = $domain_segments->pop;
     my $sld       = $domain_segments->pop;
     my $thld      = $domain_segments->pop;
@@ -93,18 +95,22 @@ func _find_zone($domain_segments) {
     }
     my ( $zone, @zone_params );
 
+    # first checking for third level domain
     if ( $possible_thld and $possible_thld =~ /\A$tld_regex\z/ ) {
+        ### $possible_thld: $possible_thld
         my $zone_ace = join "." => $thld_zone_ace, $sld_zone_ace, $tld_zone_ace;
         $zone = join "." => $thld, $sld, $tld;
         push @zone_params, zone_ace => $zone_ace;
     }
     elsif ( $possible_tld =~ /\A$tld_regex\z/ ) {
+        ### possible_tld: $possible_tld
         push @{$domain_segments}, $thld;
         my $zone_ace = join "." => $sld_zone_ace, $tld_zone_ace;
         $zone = join "." => $sld, $tld;
         push @zone_params, zone_ace => $zone_ace;
     }
     elsif ( $tld_zone_ace =~ /\A$tld_regex\z/ ) {
+        ### tld_zone_ace: $tld_zone_ace
         push @{$domain_segments}, $thld if $thld;
         push @{$domain_segments}, $sld;
         push @zone_params, zone_ace => $tld_zone_ace;
@@ -125,7 +131,7 @@ func _punycode_segments( $domain_segments, $zone ) {
         foreach my $segment ( @{$domain_segments} ) {
             croak
               "Error processing domain. Please report to package maintainer."
-              if not $segment
+              if not defined $segment
               or $segment eq '';
             my $nameprepped = nameprep( lc $segment );
             my $ascii       = domain_to_ascii($nameprepped);
