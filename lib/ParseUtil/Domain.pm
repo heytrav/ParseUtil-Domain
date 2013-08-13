@@ -74,7 +74,6 @@ func _find_zone($domain_segments) {
 
     my $tld_regex = ParseUtil::Domain::ConfigData->config('tld_regex');
     ### Domain Segments: dump( $domain_segments )
-    my $segment_count = $domain_segments->size;
     my $tld       = $domain_segments->pop;
     my $sld       = $domain_segments->pop;
     my $thld      = $domain_segments->pop;

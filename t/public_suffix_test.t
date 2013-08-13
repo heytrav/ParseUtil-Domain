@@ -6,7 +6,6 @@
 use lib qw{ ./t/lib blib/lib };
 use Test::More tests => 52;
 use ParseUtil::Domain ":parse";
-use Data::Dumper::Simple;
 
 sub checkPublicSuffix {
   my ( $host, $expected_domain ) = @_;
