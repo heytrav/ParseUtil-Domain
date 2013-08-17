@@ -1,6 +1,9 @@
 package AsciiToggle;
 
 use Moose;
+use perl5i::2;
+#use feature 'unicode_strings';
+#use utf8;
 
 has get_domains_to_test => (
     is      => 'ro',
