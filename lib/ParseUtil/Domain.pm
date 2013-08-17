@@ -7,6 +7,8 @@ $VERSION = eval $VERSION;
 ## use critic
 
 use perl5i::2;
+use feature 'unicode_strings';
+use utf8;
 
 use Perl6::Export::Attrs;
 use ParseUtil::Domain::ConfigData;
@@ -19,7 +21,7 @@ use Net::IDN::Nameprep;
 
 func parse_domain($name) :Export(:parse) {
     $name =~ s/\s//gs;
-    open my $utf8h, "<", \$name;
+    open my $utf8h, "<:encoding(utf8)", \$name;
     my $utf8_name = do { local $/; <$utf8h>; };
     $utf8h->close;
     my @name_segments = $utf8_name->split(qr{\Q@\E});
