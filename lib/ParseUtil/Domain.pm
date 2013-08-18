@@ -7,8 +7,6 @@ $VERSION = eval $VERSION;
 ## use critic
 
 use perl5i::2;
-use feature 'unicode_strings';
-use utf8;
 
 use Perl6::Export::Attrs;
 use ParseUtil::Domain::ConfigData;
@@ -16,16 +14,9 @@ use Net::IDN::Encode ':all';
 use Net::IDN::Punycode ':all';
 use Net::IDN::Nameprep;
 
-#use Data::Dump qw(dump);
-#use Smart::Comments;
-
 func parse_domain($name) :Export(:parse) {
-    $name =~ s/\s//gs;
-    open my $utf8h, "<:encoding(utf8)", \$name;
-    my $utf8_name = do { local $/; <$utf8h>; };
-    $utf8h->close;
-    my @name_segments = $utf8_name->split(qr{\Q@\E});
-    ### namesegments : dump(\@name_segments)
+    my @name_segments = $name->split(qr{\Q@\E});
+    ### namesegments : \@name_segments
 
     my @segments = $name_segments[-1]->split(qr/[\.\x{FF0E}\x{3002}\x{FF61}]/);
     ### executing with : $name
@@ -58,13 +49,11 @@ func parse_domain($name) :Export(:parse) {
 
 func puny_convert($domain) :Export(:simple) {
     my @keys;
-    given ($domain) {
-        when (/\.?xn--/) {
-            @keys = qw/domain zone/;
-        }
-        default {
-            @keys = qw/domain_ace zone_ace/;
-        }
+    if ( $domain =~ /\.?xn--/ ) {
+        @keys = qw/domain zone/;
+    }
+    else {
+        @keys = qw/domain_ace zone_ace/;
     }
     my $parsed        = parse_domain($domain);
     my $parsed_domain = $parsed->slice(@keys)->join(".");
@@ -75,7 +64,7 @@ func puny_convert($domain) :Export(:simple) {
 func _find_zone($domain_segments) {
 
     my $tld_regex = ParseUtil::Domain::ConfigData->config('tld_regex');
-    ### Domain Segments: dump( $domain_segments )
+    ### Domain Segments: $domain_segments
     my $tld       = $domain_segments->pop;
     my $sld       = $domain_segments->pop;
     my $thld      = $domain_segments->pop;

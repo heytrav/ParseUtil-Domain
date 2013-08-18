@@ -7,8 +7,6 @@ use Test::More;
 use Test::Deep ();
 use Test::Exception;
 use namespace::autoclean;
-use feature 'unicode_strings';
-use utf8;
 
 has domains_to_test => (
     is      => 'ro',
@@ -26,6 +24,7 @@ test puny_toggle => { desc => 'Toggle unicode <-> ascii domains' } => sub {
 
     my $domains_to_test = $self->domains_to_test();
     foreach my $domain ( @{$domains_to_test} ) {
+        say $domain;
         lives_ok {
             puny_convert($domain);
         }
