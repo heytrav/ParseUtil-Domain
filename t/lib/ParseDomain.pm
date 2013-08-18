@@ -3,7 +3,7 @@ package ParseDomain;
 use strict;
 use warnings;
 
-use base qw(Test::Class);
+use parent qw(Test::Class);
 
 use Test::More;
 
@@ -11,7 +11,6 @@ use Test::More;
 use Test::Exception;
 use utf8;
 
-#use YAML;
 #use Smart::Comments;
 
 use ParseUtil::Domain ':parse';
@@ -172,7 +171,7 @@ sub t100_undefined_mappings : Test(1) {
     my $test_domain = 'xn--blo-7ka.com';
     throws_ok {
         my $result = parse_domain($test_domain);
-        ### result : Dump($result)
+        ### result : $result
     }
     qr/Undefined mapping/, "Mapping should not be defined.";
 

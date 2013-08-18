@@ -11,6 +11,7 @@ use namespace::autoclean;
 has domains_to_test => (
     is      => 'ro',
     isa     => 'ArrayRef',
+    lazy    => 1,
     builder => 'get_domains_to_test'
 );
 
