@@ -18,7 +18,7 @@ sub process_tld_data_files {    #{{{
 
     my $wildcards = {};
     my $regexp_obj = Regexp::Assemble::Compressed->new();
-    
+
     foreach my $processed_tld (@processed_tlds) {
         my ($object,$has_wildcard,$has_exclusion) = @{$processed_tld}{qw/object has_wildcard has_exclusion/};
         my $regexp_chunk = '';
@@ -42,8 +42,8 @@ sub process_tld_data_files {    #{{{
     }
     # special rules for wildcards
     foreach my $wildcard ( keys %$wildcards ) {
-      my $exclusions = $wildcards->{$wildcard}; 
-      my $regexp_chunk = '\Q'.$wildcard.'\E\.'; 
+      my $exclusions = $wildcards->{$wildcard};
+      my $regexp_chunk = '\Q'.$wildcard.'\E\.';
       foreach my $exclusion ( @$exclusions ) {
         $regexp_chunk .= '(?!'.$exclusion.'$)';
       }
@@ -51,7 +51,7 @@ sub process_tld_data_files {    #{{{
       $regexp_obj->add($regexp_chunk);
 
       # still need to match on the actual wildcard
-      $regexp_chunk = '\Q'.$wildcard.'\E'; 
+      $regexp_chunk = '\Q'.$wildcard.'\E';
       $regexp_obj->add($regexp_chunk);
 
     }
