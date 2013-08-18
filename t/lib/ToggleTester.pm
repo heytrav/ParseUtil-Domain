@@ -8,7 +8,7 @@ use Test::Deep ();
 use Test::Exception;
 use namespace::autoclean;
 use feature 'unicode_strings';
-#use utf8;
+use utf8;
 
 has domains_to_test => (
     is      => 'ro',
