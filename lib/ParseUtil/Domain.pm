@@ -302,6 +302,20 @@ Examples:
         zone_ace   => 'de'
     }
 
+  5. parse_domain('www.whatever.com');
+
+   Result:
+    {
+        domain     => 'www.whatever',
+        zone       => 'com',
+        domain_ace => 'www.whatever',
+        zone_ace   => 'com',
+        name       => 'whatever',
+        name_ace   => 'whatever',
+        prefix     => 'www',
+        prefix_ace => 'www'
+    }
+
 =back
 
 
@@ -357,7 +371,7 @@ The L<Public Suffix List|http://publicsuffix.org/list/>.
 
 
 =item *
-Added extra I<prefix> and I<name> fields to output to separate the actual registered part of the domain from subdomains or I<www>.
+Added extra I<prefix> and I<name> fields to output to separate the actual registered part of the domain from subdomains (or things like I<www>).
 
 =item *
 Updated with latest version of the public suffix list.
