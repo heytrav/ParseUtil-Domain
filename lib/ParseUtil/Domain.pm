@@ -2,7 +2,7 @@ package ParseUtil::Domain;
 
 
 ## no critic
-our $VERSION = '2.30_002';
+our $VERSION = '2.31';
 $VERSION = eval $VERSION;
 ## use critic
 
