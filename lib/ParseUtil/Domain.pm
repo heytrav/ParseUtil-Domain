@@ -2,7 +2,7 @@ package ParseUtil::Domain;
 
 
 ## no critic
-our $VERSION = '2.30_001';
+our $VERSION = '2.30_002';
 $VERSION = eval $VERSION;
 ## use critic
 
@@ -13,8 +13,10 @@ use ParseUtil::Domain::ConfigData;
 use Net::IDN::Encode ':all';
 use Net::IDN::Punycode ':all';
 use Net::IDN::Nameprep;
+#use Smart::Comments;
 
 func parse_domain($name) :Export(:parse) {
+    ### testing : $name
     my @name_segments = $name->split(qr{\Q@\E});
     ### namesegments : \@name_segments
 
@@ -27,19 +29,24 @@ func parse_domain($name) :Export(:parse) {
     ### found zone_ace : $zone_ace
 
     my $puny_processed = _punycode_segments( $domain_segments, $zone );
+    my ($domain_name, $name_ace) = $puny_processed->slice(qw/name name_ace/);
+    ### puny processed : $puny_processed
+    ### joining name slices : $domain_name
+    $puny_processed->{name} = [$domain_name, $zone ]->join('.') if $domain_name;
+    $puny_processed->{name_ace} = [$name_ace, $zone_ace ]->join('.') if $name_ace;
     @{$puny_processed}{qw/zone zone_ace/} = ( $zone, $zone_ace );
 
     # process .name "email" domains
     if ( @name_segments > 1 ) {
         my $punycoded_name = _punycode_segments( [ $name_segments[0] ], $zone );
-        my ( $name_domain, $name_ace ) =
+        my ( $domain, $domain_ace) =
           $punycoded_name->slice(qw/domain domain_ace/);
 
         $puny_processed->{domain} =
-          [ $name_domain, $puny_processed->{domain} ]->join('@');
-        if ($name_ace) {
+          [ $domain, $puny_processed->{domain} ]->join('@');
+        if ($domain_ace) {
             $puny_processed->{domain_ace} =
-              [ $name_ace, $puny_processed->{domain_ace} ]->join('@');
+              [ $domain_ace, $puny_processed->{domain_ace} ]->join('@');
 
         }
     }
@@ -117,33 +124,65 @@ func _find_zone($domain_segments) {
 }
 
 func _punycode_segments( $domain_segments, $zone ) {
-    if ( not $zone or $zone !~ /^(?:de|fr|pm|re|tf|wf|yt)$/ ) {
-        my $puny_encoded = [];
-        foreach my $segment ( @{$domain_segments} ) {
-            croak
-              "Error processing domain. Please report to package maintainer."
-              if not defined $segment
-              or $segment eq '';
-            my $nameprepped = nameprep( lc $segment );
-            my $ascii       = domain_to_ascii($nameprepped);
-            push @{$puny_encoded}, $ascii;
-        }
-        my $puny_decoded = [ map { domain_to_unicode($_) } @{$puny_encoded} ];
-        croak "Undefined mapping!"
-          if $puny_decoded->any( sub { lc $_ ne nameprep( lc $_ ) } );
-        return {
-            domain     => $puny_decoded->join("."),
-            domain_ace => $puny_encoded->join(".")
-        };
-    }
+        my @name_prefix;
+        if ( not $zone or $zone !~ /^(?:de|fr|pm|re|tf|wf|yt)$/ ) {
+            my $puny_encoded = [];
+            foreach my $segment ( @{$domain_segments} ) {
+                croak "Error processing domain."
+                  . " Please report to package maintainer."
+                  if not defined $segment
+                  or $segment eq '';
+                my $nameprepped = nameprep( lc $segment );
+                my $ascii       = domain_to_ascii($nameprepped);
+                push @{$puny_encoded}, $ascii;
+            }
+            my $puny_decoded =
+              [ map { domain_to_unicode($_) } @{$puny_encoded} ];
+            croak "Undefined mapping!"
+              if $puny_decoded->any( sub { lc $_ ne nameprep( lc $_ ) } );
 
-    # Avoid nameprep step for certain tlds
-    my $puny_encoded = [ map { _puny_encode( lc $_ ) } @{$domain_segments} ];
-    my $puny_decoded = [ map { _puny_decode($_) } @{$puny_encoded} ];
-    return {
-        domain     => $puny_decoded->join("."),
-        domain_ace => $puny_encoded->join(".")
-    };
+            my $domain     = $puny_decoded->join(".");
+            my $domain_ace = $puny_encoded->join(".");
+
+            my $processed_name     = _process_name_part($puny_decoded);
+            my $processed_name_ace = _process_name_part($puny_encoded);
+            @{$processed_name_ace}{qw/name_ace prefix_ace/} =
+              delete @{$processed_name_ace}{qw/name prefix/};
+
+            return {
+                domain     => $domain,
+                domain_ace => $domain_ace,
+                %{$processed_name},
+                %{$processed_name_ace}
+            };
+        }
+
+        # Avoid nameprep step for certain tlds
+        my $puny_encoded =
+          [ map { _puny_encode( lc $_ ) } @{$domain_segments} ];
+        my $puny_decoded       = [ map { _puny_decode($_) } @{$puny_encoded} ];
+        my $domain             = $puny_decoded->join(".");
+        my $domain_ace         = $puny_encoded->join(".");
+        my $processed_name     = _process_name_part($puny_decoded);
+        my $processed_name_ace = _process_name_part($puny_encoded);
+        @{$processed_name_ace}{qw/name_ace prefix_ace/} =
+          delete @{$processed_name_ace}{qw/name prefix/};
+        return {
+            domain     => $domain,
+            domain_ace => $domain_ace,
+            %{$processed_name},
+            %{$processed_name_ace}
+        };
+
+}
+
+func _process_name_part($processed) {
+    my @name_prefix;
+    my $name   = $processed->pop;
+    my $prefix = $processed->join(".");
+    push @name_prefix, name => $name   if $name;
+    push @name_prefix, prefix => $prefix if $prefix;
+    return {@name_prefix};
 }
 
 func _puny_encode($unencoded) {

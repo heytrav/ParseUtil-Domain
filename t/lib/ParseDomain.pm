@@ -15,7 +15,7 @@ use utf8;
 
 use ParseUtil::Domain ':parse';
 
-sub t010_split_ascii_domain_tld : Test(29) {
+sub t010_split_ascii_domain_tld : Test(33) {
     my $self         = shift;
     my $test_domains = [
 
@@ -36,23 +36,43 @@ sub t010_split_ascii_domain_tld : Test(29) {
             domain => 'something',
             zone   => 'tas.gov.au'
         },
-        { raw => 'whatever.name',    domain => 'whatever',    zone => 'name' },
-        { raw => 'me.whatever.name', domain => 'me.whatever', zone => 'name' },
+        { raw => 'whatever.name', domain => 'whatever', zone => 'name' },
+        {
+            raw    => 'me.whatever.name',
+            domain => 'me.whatever',
+            prefix => 'me',
+            zone   => 'name'
+        },
         { raw => 'me@whatever.name', domain => 'me@whatever', zone => 'name' },
-        { raw => 'mx01.whatever.it', domain => 'mx01.whatever', zone => 'it' },
-        { raw => 'my.domain.shop',   domain => 'my.domain', zone => 'shop' },
+        {
+            raw    => 'mx01.whatever.it',
+            domain => 'mx01.whatever',
+            prefix => 'mx01',
+            zone   => 'it'
+        },
+        {
+            raw    => 'my.domain.shop',
+            domain => 'my.domain',
+            prefix => 'my',
+            zone   => 'shop'
+        },
         { raw => 'my-domain.web',    domain => 'my-domain', zone => 'web' },
         { raw => 'my-domain.one',    domain => 'my-domain', zone => 'one' },
         { raw => 'my-domain.city',   domain => 'my-domain', zone => 'city' },
         { raw => 'my-domain.gay',    domain => 'my-domain', zone => 'gay' },
         { raw => 'my-domain.london', domain => 'my-domain', zone => 'london' },
-        { raw => '0.cdn.ideeli.net', domain => '0.cdn.ideeli', zone => 'net' },
+        {
+            raw    => '0.cdn.ideeli.net',
+            domain => '0.cdn.ideeli',
+            prefix => '0.cdn',
+            zone   => 'net'
+        },
 
     ];
 
     foreach my $test_domain ( @{$test_domains} ) {
         my $parsed = parse_domain( $test_domain->{raw} );
-        my ( $domain, $zone, ) = @{$parsed}{qw/domain zone /};
+        my ( $prefix, $domain, $zone, ) = @{$parsed}{qw/prefix domain zone /};
 
         is(
             $domain,
@@ -60,6 +80,9 @@ sub t010_split_ascii_domain_tld : Test(29) {
             "Expected " . $test_domain->{domain}
         );
         is( $zone, $test_domain->{zone}, "Expected " . $test_domain->{zone} );
+        if ( my $expected_prefix = $test_domain->{prefix} ) {
+            is( $prefix, $expected_prefix, "Expected: " . $expected_prefix );
+        }
 
     }
 
