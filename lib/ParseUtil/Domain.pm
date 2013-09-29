@@ -357,6 +357,9 @@ The L<Public Suffix List|http://publicsuffix.org/list/>.
 
 
 =item *
+Added extra I<prefix> and I<name> fields to output to separate the actual registered part of the domain from subdomains or I<www>.
+
+=item *
 Updated with latest version of the public suffix list.
 
 =item *
