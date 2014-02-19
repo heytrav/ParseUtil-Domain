@@ -119,7 +119,9 @@ my $builder = $class->new(
         'Net::IDN::Nameprep'   => 1.101,
         'Net::IDN::Punycode'   => 1.100,
         'Perl6::Export::Attrs' => 0,
-        'perl5i'               => 0,
+        'autobox'              => 0,
+        'autobox::Core'        => 0,
+        'List::MoreUtils'      => 0,
     },
     add_to_cleanup => ['ParseUtil-*'],
     tld_data_files =>
