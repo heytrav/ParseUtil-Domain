@@ -1,7 +1,7 @@
 package AsciiToggle;
 
 use Moose;
-use perl5i::2;
+use 5.010;
 
 has get_domains_to_test => (
     is      => 'ro',

@@ -393,8 +393,6 @@ Updated with latest version of the public suffix list.
 =item *
 Added a bunch of new TLDs (nTLDs).
 
-=item *
-Now uses L<perl5i>.
 
 
 =back

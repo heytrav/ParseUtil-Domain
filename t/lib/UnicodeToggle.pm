@@ -1,7 +1,7 @@
 package UnicodeToggle;
 
 use Moose;
-use perl5i::2;
+use 5.010;
 use utf8;
 
 has get_domains_to_test => (

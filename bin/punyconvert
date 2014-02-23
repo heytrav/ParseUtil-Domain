@@ -1,7 +1,7 @@
 #!/usr/bin/env perl
 
 
-use perl5i::2;
+use 5.010;
 
 use ParseUtil::Domain ':simple';
 

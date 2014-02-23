@@ -1,7 +1,7 @@
 package ToggleTester;
 
-use perl5i::2;
 
+use 5.010;
 use Test::Routine;
 use Test::More;
 use Test::Deep ();
