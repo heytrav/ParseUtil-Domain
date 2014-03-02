@@ -33,6 +33,7 @@ test puny_toggle => { desc => 'Toggle unicode <-> ascii domains' } => sub {
     }
 };
 
+"one, but we're not the same";
 
 
 __END__

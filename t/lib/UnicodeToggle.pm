@@ -18,6 +18,7 @@ has get_domains_to_test => (
       }
 );
 
+"one, but we're not the same.";
 
 __END__
 
