@@ -7,7 +7,7 @@ use Test::More;
 use Test::Deep ();
 use Test::Exception;
 use namespace::autoclean;
-
+use perl5i::2;
 has domains_to_test => (
     is      => 'ro',
     isa     => 'ArrayRef',
