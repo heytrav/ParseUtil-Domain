@@ -1,12 +1,11 @@
-ParseUtil::Domain(3)  User Contributed Perl Documentation ParseUtil::Domain(3)
+ParseUtil::Domain
+=================
+
+A tool for parsing a domain name into its components.
 
 
-
-NNAAMMEE
-       ParseUtil::Domain - Utility for parsing a domain name into its
-       constituent components.
-
-SSYYNNOOPPSSIISS
+Synopsis
+========
          use ParseUtil::Domain;
 
          my $processed = parse_domain("somedomain.com");
@@ -17,16 +16,18 @@ SSYYNNOOPPSSIISS
            #        zone_ace => 'com'
            #    }
 
-DDEESSCCRRIIPPTTIIOONN
+Description
+===========
        Just another tool for parsing domain names.  This module makes use of
-       the data provided by the _P_u_b_l_i_c _S_u_f_f_i_x _L_i_s_t
+       the data provided by the Public Suffix List
        (http://publicsuffix.org/list/) to parse tlds.  For completeness it
        tries to provide the respective puny encoded and decoded domain and tld
-       part of a domain name.  This includes proper handling of the LLAATTIINN
-       SSHHAARRPP SS which is now allowed by DENIC eG (.de).
+       part of a domain name.
 
-IINNTTEERRFFAACCEE
-   ppaarrssee__ddoommaaiinn
+Interface
+========
+
+    parse_domain
         Arguments
           "string"
             Examples:
@@ -72,18 +73,13 @@ IINNTTEERRFFAACCEE
                 zone_ace => 'de'
                }
 
-DDEEPPEENNDDEENNCCIIEESS
+Dependencies
+============
+
         Net::IDN::Encode
         Net::IDN::Punycode
         Regexp::Assemble::Compressed
         The Public Suffix List at http://publicsuffix.org/list/
 
-BBUUGGSS
-       Although, not necessarily a bug, be wary of differences in
-       encoding/decoding domains ending in ..ddee.  These domains are not
-       _n_a_m_e_p_r_e_ped like other tlds in order to allow for encoding of the German
-       LLAATTIINN SSHHAARRPP SS.
 
 
-
-perl v5.10.1                      2011-01-26              ParseUtil::Domain(3)
