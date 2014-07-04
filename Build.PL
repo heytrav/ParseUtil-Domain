@@ -2,7 +2,7 @@ use strict;
 use warnings;
 use Module::Build;
 
-my $class = Module::Build->subclass( code => <<'EOF');
+my $class = Module::Build->subclass(code => <<'EOF');
 
 use utf8;
 
@@ -122,11 +122,11 @@ my $builder = $class->new(
         'autobox'              => 0,
         'autobox::Core'        => 0,
         'List::MoreUtils'      => 0,
+        'perl5i::2'            => 0,
     },
     add_to_cleanup => ['ParseUtil-*'],
     tld_data_files =>
-      { 'data/effective_tld_names.txt' => 'data/effective_tld_names.txt' }
-);
+        { 'data/effective_tld_names.txt' => 'data/effective_tld_names.txt' });
 
 $builder->add_build_element('tld_data');
 $builder->create_build_script();
