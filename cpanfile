@@ -3,6 +3,8 @@ requires 'Net::IDN::Encode', '2.003';
 requires 'Net::IDN::Nameprep', '1.101';
 requires 'Net::IDN::Punycode', '1.100';
 requires 'Perl6::Export::Attrs';
+requires 'Modern::Perl';
+requires 'utf8::all';
  
 on 'build' => sub {
   requires 'namespace::autoclean';
