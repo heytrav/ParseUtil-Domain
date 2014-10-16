@@ -122,6 +122,8 @@ my $builder = $class->new(
         'autobox'              => 0,
         'autobox::Core'        => 0,
         'List::MoreUtils'      => 0,
+        'Modern::Perl' => 0,
+        'utf8::all' => 0,
     },
     add_to_cleanup => ['ParseUtil-*'],
     tld_data_files =>
