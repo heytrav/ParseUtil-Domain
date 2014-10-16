@@ -90,7 +90,7 @@ EOF
 
 my $builder = $class->new(
     module_name          => 'ParseUtil::Domain',
-    license              => 'perl',
+    license              => ['perl'],
     create_license       => 1,
     dist_author          => 'Trav Holton <heytrav@cpan.org>',
     dist_version_from    => 'lib/ParseUtil/Domain.pm',
@@ -101,6 +101,7 @@ my $builder = $class->new(
         }
     },
     configure_requires => { 'Module::Build' => 0.4 },
+    x_authority => 'cpan:HEYTRAV',
     build_requires     => {
         'Regexp::Assemble::Compressed' => 0,
         'Perl::Critic'                 => 0,
@@ -126,6 +127,7 @@ my $builder = $class->new(
         'List::MoreUtils'      => 0,
         'Modern::Perl'         => 0,
         'utf8::all'            => 0,
+        'perl' => 5.14,
     },
     add_to_cleanup => ['ParseUtil-*'],
     tld_data_files =>
