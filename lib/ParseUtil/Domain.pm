@@ -230,6 +230,9 @@ __END__
 
 =encoding utf8
 
+
+=for HTML <a href="https://travis-ci.org/heytrav/ParseUtil-Domain"><img src="https://travis-ci.org/heytrav/ParseUtil-Domain.svg?branch=master"></a>
+
 ParseUtil::Domain - Domain parser and puny encoder/decoder.
 
 =head1 SYNOPSIS

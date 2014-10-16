@@ -1,85 +1,120 @@
-ParseUtil::Domain
-=================
+# NAME
 
-A tool for parsing a domain name into its components.
+ParseUtil::Domain - Domain parser and puny encoder/decoder.
 
+[![Build Status](https://travis-ci.org/heytrav/ParseUtil-Domain.svg?branch=master)](https://travis-ci.org/heytrav/ParseUtil-Domain)
 
-Synopsis
-========
-         use ParseUtil::Domain;
+# SYNOPSIS
 
-         my $processed = parse_domain("somedomain.com");
-           #   $processed == {
-           #        domain => 'somedomain',
-           #        domain_ace => 'somedomain',
-           #        zone => 'com',
-           #        zone_ace => 'com'
-           #    }
+    use ParseUtil::Domain ':parse';
 
-Description
-===========
-       Just another tool for parsing domain names.  This module makes use of
-       the data provided by the Public Suffix List
-       (http://publicsuffix.org/list/) to parse tlds.  For completeness it
-       tries to provide the respective puny encoded and decoded domain and tld
-       part of a domain name.
+      my $processed = parse_domain("somedomain.com");
+      #$processed:
+      #{
+          #domain => 'somedomain',
+          #domain_ace => 'somedomain',
+          #zone => 'com',
+          #zone_ace => 'com'
+      #}
 
-Interface
-========
+# DESCRIPTION
 
-    parse_domain
-        Arguments
-          "string"
-            Examples:
+This purpose of this module is to parse a domain name into its respective name and tld. Note that
+the _tld_ may actually refer to a second- or third-level domain, e.g. co.uk or
+plc.co.im.  It also provides respective puny encoded and decoded versions of
+the parsed domain.
 
-              1. 'somedomain.com'
-              2. 'test.xn--o3cw4h'
-              3. 'bloss.co.at'
-              4. 'bloss.de'
+This module uses TLD data from the [Public Suffix List](http://publicsuffix.org/list/) which is included with this
+distribution.
 
-        Return
-          "HASHREF"
-            Examples:
+# INTERFACE
 
-              1.
+## parse\_domain
+
+-
+parse\_domain(string)
+    -
+    Examples:
+
+             1. parse_domain('somedomain.com');
+
+              Result:
               {
-                domain => 'somedomain',
-                zone => 'com',
-                domain_ace => 'somedomain',
-                zone_ace => 'com'
-               }
+                  domain     => 'somedomain',
+                  zone       => 'com',
+                  domain_ace => 'somedomain',
+                  zone_ace   => 'com'
+              }
 
-              2.
+            2. parse_domain('test.xn--o3cw4h');
+
+              Result:
               {
-                domain => 'test',
-                zone => 'XXX',
-                domain_ace => 'test',
-                zone_ace => 'xn--o3cw4h'
-               }
+                  domain     => 'test',
+                  zone       => 'ไทย',
+                  domain_ace => 'test',
+                  zone_ace   => 'xn--o3cw4h'
+              }
 
-              3.
+            3. parse_domain('bloß.co.at');
+
+              Result:
               {
-                domain => 'bloss',
-                zone => 'co.at',
-                domain_ace => 'bloss',
-                zone_ace => 'co.at'
-               }
+                  domain     => 'bloss',
+                  zone       => 'co.at',
+                  domain_ace => 'bloss',
+                  zone_ace   => 'co.at'
+              }
 
-              4.
+            4. parse_domain('bloß.de');
+
+              Result:
               {
-                domain => 'bloss',
-                zone => 'de',
-                domain_ace => 'xn--blo-7ka',
-                zone_ace => 'de'
-               }
+                  domain     => 'bloß',
+                  zone       => 'de',
+                  domain_ace => 'xn--blo-7ka',
+                  zone_ace   => 'de'
+              }
 
-Dependencies
-============
+            5. parse_domain('www.whatever.com');
 
-        Net::IDN::Encode
-        Net::IDN::Punycode
-        Regexp::Assemble::Compressed
-        The Public Suffix List at http://publicsuffix.org/list/
+             Result:
+              {
+                  domain     => 'www.whatever',
+                  zone       => 'com',
+                  domain_ace => 'www.whatever',
+                  zone_ace   => 'com',
+                  name       => 'whatever',
+                  name_ace   => 'whatever',
+                  prefix     => 'www',
+                  prefix_ace => 'www'
+              }
 
+## puny\_convert
 
+Toggles a domain between puny encoded and decoded versions.
 
+    use ParseUtil::Domain ':simple';
+
+    my $result = puny_convert('bloß.de');
+    # $result: xn--blo-7ka.de
+
+    my $reverse = puny_convert('xn--blo-7ka.de');
+    # $reverse: bloß.de
+
+# DEPENDENCIES
+
+-
+[Net::IDN::Encode](https://metacpan.org/pod/Net::IDN::Encode)
+-
+[Net::IDN::Punycode](https://metacpan.org/pod/Net::IDN::Punycode)
+-
+[Regexp::Assemble::Compressed](https://metacpan.org/pod/Regexp::Assemble::Compressed)
+-
+The [Public Suffix List](http://publicsuffix.org/list/).
+
+# CHANGES
+
+- Added extra _prefix_ and _name_ fields to output to separate the actual registered part of the domain from subdomains (or things like _www_).
+- Updated with latest version of the public suffix list.
+- Added a bunch of new TLDs (nTLDs).
