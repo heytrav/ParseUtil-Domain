@@ -7,7 +7,8 @@ $VERSION = eval $VERSION;
 
 use Carp;
 
-use perl5i::2;
+use Modern::Perl;
+use utf8::all;
 use autobox;
 use autobox::Core;
 use List::MoreUtils qw/any/;
@@ -382,8 +383,6 @@ The L<Public Suffix List|http://publicsuffix.org/list/>.
 
 =over 3
 
-=item *
-Go back to C<sub> style subroutines instead of C<func>. The L<perl5i> style functions seem to cause the debugger to die horribly.
 
 =item *
 Added extra I<prefix> and I<name> fields to output to separate the actual registered part of the domain from subdomains (or things like I<www>).

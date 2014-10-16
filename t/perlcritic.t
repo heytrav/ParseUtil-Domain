@@ -1,6 +1,6 @@
 use strict;
 use warnings;
-use 5.010;
+use Modern::Perl;
 use Test::More;
 use English qw(-no_match_vars);
 use File::Spec;

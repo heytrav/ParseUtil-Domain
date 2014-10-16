@@ -1,13 +1,13 @@
 package ToggleTester;
 
 
-use 5.010;
+use Modern::Perl;
 use Test::Routine;
 use Test::More;
 use Test::Deep ();
 use Test::Exception;
 use namespace::autoclean;
-use perl5i::2;
+use utf8::all;
 has domains_to_test => (
     is      => 'ro',
     isa     => 'ArrayRef',

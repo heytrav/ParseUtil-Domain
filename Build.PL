@@ -122,7 +122,6 @@ my $builder = $class->new(
         'autobox'              => 0,
         'autobox::Core'        => 0,
         'List::MoreUtils'      => 0,
-        'perl5i::2'            => 0,
     },
     add_to_cleanup => ['ParseUtil-*'],
     tld_data_files =>
