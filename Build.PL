@@ -91,6 +91,7 @@ EOF
 my $builder = $class->new(
     module_name          => 'ParseUtil::Domain',
     license              => 'perl',
+    create_license => 1,
     dist_author          => 'Trav Holton <heytrav@cpan.org>',
     dist_version_from    => 'lib/ParseUtil/Domain.pm',
     recursive_test_files => 1,
