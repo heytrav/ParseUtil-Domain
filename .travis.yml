@@ -6,5 +6,5 @@ perl:
   - 5.18
   - 5.20.1
 install:
-  - cpanm -n --installdeps
+  - cpanm -n --installdeps .
 
