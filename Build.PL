@@ -112,6 +112,7 @@ my $builder = $class->new(
         'Unicode::CharName'            => 1.07,
         'Test::Routine'                => 0,
         'namespace::autoclean'         => 0,
+        'Modern::Perl' => 0,
     },
     requires => {
         'Carp'                 => 1.17,
