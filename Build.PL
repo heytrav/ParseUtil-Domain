@@ -90,7 +90,7 @@ EOF
 
 my $builder = $class->new(
     module_name          => 'ParseUtil::Domain',
-    license              => ['perl'],
+    license              => 'perl',
     create_license       => 1,
     dist_author          => 'Trav Holton <heytrav@cpan.org>',
     dist_version_from    => 'lib/ParseUtil/Domain.pm',
@@ -101,20 +101,25 @@ my $builder = $class->new(
         }
     },
     configure_requires => { 'Module::Build' => 0.4 },
-    x_authority => 'cpan:HEYTRAV',
-    build_requires     => {
+    x_authority        => 'cpan:HEYTRAV',
+    perl_version => " >= 5.14",
+    test_requires      => {
+        'Test::More'          => 0,
+        'Test::Class'         => 0,
+        'Test::Deep'          => 0,
+        'Perl::Critic'        => 0,
+        'Test::Perl::Critic'  => 0,
+        'Test::Routine'       => 0,
+        'Test::Routine::Util' => 0,
+        'Test::Exception'     => 0,
+        'Moose'               => 0,
+    },
+    build_requires => {
         'Regexp::Assemble::Compressed' => 0,
-        'Perl::Critic'                 => 0,
         'Smart::Comments'              => 0,
-        'Test::More'                   => 0,
-        'Test::Class'                  => 0,
-        'Test::Deep'                   => 0,
-        'Test::Perl::Critic'           => 0,
         'Net::IDN::Encode'             => 2.003,
         'Unicode::CharName'            => 1.07,
-        'Test::Routine'                => 0,
         'namespace::autoclean'         => 0,
-        'Modern::Perl'                 => 0,
     },
     requires => {
         'Carp'                 => 1.17,
@@ -127,7 +132,8 @@ my $builder = $class->new(
         'List::MoreUtils'      => 0,
         'Modern::Perl'         => 0,
         'utf8::all'            => 0,
-        'perl' => 5.14,
+        'English'              => 0,
+        'File::Spec'           => 0,
     },
     add_to_cleanup => ['ParseUtil-*'],
     tld_data_files =>
