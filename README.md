@@ -2,7 +2,7 @@
 
 ParseUtil::Domain - Domain parser and puny encoder/decoder.
 
-[![Build Status](https://travis-ci.org/heytrav/ParseUtil-Domain.svg?branch=master)](https://travis-ci.org/heytrav/ParseUtil-Domain)
+[![Build Status](https://travis-ci.org/heytrav/ParseUtil-Domain.svg?branch=remove-utf8)](https://travis-ci.org/heytrav/ParseUtil-Domain)
 
 # SYNOPSIS
 
