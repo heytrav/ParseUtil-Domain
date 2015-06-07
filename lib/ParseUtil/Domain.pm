@@ -1,13 +1,9 @@
 package ParseUtil::Domain;
 
-## no critic
-our $VERSION = '2.42';
-$VERSION = eval $VERSION;
-## use critic
-
-use Carp;
+# VERSION
 
 use Modern::Perl;
+use Carp;
 use utf8::all;
 use autobox;
 use autobox::Core;
