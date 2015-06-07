@@ -4,7 +4,6 @@ package ParseUtil::Domain;
 
 use Modern::Perl;
 use Carp;
-use utf8::all;
 use autobox;
 use autobox::Core;
 use List::MoreUtils qw/any/;

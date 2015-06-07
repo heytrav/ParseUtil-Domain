@@ -2,7 +2,6 @@ package UnicodeToggle;
 
 use Moose;
 use Modern::Perl;
-use utf8::all;
 has get_domains_to_test => (
     is      => 'ro',
     isa     => 'ArrayRef',
