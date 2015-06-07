@@ -227,7 +227,7 @@ __END__
 ParseUtil::Domain - Domain parser and puny encoder/decoder.
 
 
-=for HTML <a href="https://travis-ci.org/heytrav/ParseUtil-Domain"><img src="https://travis-ci.org/heytrav/ParseUtil-Domain.svg?branch=master"></a>
+=for HTML <a href="https://travis-ci.org/heytrav/ParseUtil-Domain"><img src="https://travis-ci.org/heytrav/ParseUtil-Domain.svg?branch=remove-utf8"></a>
 
 
 =head1 SYNOPSIS
