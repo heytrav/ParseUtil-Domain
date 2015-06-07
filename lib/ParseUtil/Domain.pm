@@ -2,9 +2,8 @@ package ParseUtil::Domain;
 
 # VERSION
 
-use Carp;
-
 use Modern::Perl;
+use Carp;
 use utf8::all;
 use autobox;
 use autobox::Core;

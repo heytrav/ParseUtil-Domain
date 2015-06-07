@@ -1,5 +1,8 @@
 package ParseUtil::Domain::ConfigData;
+
+
 use strict;
+## no critic
 my $arrayref = eval do {local $/; <DATA>}
   or die "Couldn't load ConfigData data: $@";
 close DATA;
@@ -71,7 +74,7 @@ sub feature {
   }
   return 1;
 }
-
+## use critic
 
 =head1 NAME
 
