@@ -1,9 +1,6 @@
 package ParseUtil::Domain;
 
-## no critic
-our $VERSION = '2.42';
-$VERSION = eval $VERSION;
-## use critic
+# VERSION
 
 use Carp;
 
