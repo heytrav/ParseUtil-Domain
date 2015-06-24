@@ -76,7 +76,7 @@ sub puny_convert : Export(:simple) {
 sub _find_zone {
     my $domain_segments = shift;
 
-    my $tld_regex = ParseUtil::Domain::ConfigData->config('tld_regex');
+    my $tld_regex = ParseUtil::Domain::ConfigData->tld_regex();
     ### Domain Segments: $domain_segments
     my $tld  = $domain_segments->pop;
     my $sld  = $domain_segments->pop;

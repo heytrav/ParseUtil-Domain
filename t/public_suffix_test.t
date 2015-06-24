@@ -4,7 +4,7 @@
 # %s/null/undef/g 
 
 use lib qw{ ./t/lib blib/lib };
-use Test::More tests => 52;
+use Test::More tests => 48;
 use ParseUtil::Domain ":parse";
 
 sub checkPublicSuffix {
@@ -107,10 +107,10 @@ checkPublicSuffix('a.b.c.kobe.jp', 'b.c.kobe.jp');
 checkPublicSuffix('city.kobe.jp', 'city.kobe.jp');
 checkPublicSuffix('www.city.kobe.jp', 'city.kobe.jp');
 # TLD with a wildcard rule and exceptions.
-checkPublicSuffix('om', undef);
-checkPublicSuffix('test.om', undef);
-checkPublicSuffix('b.test.om', 'b.test.om');
-checkPublicSuffix('a.b.test.om', 'b.test.om');
+#checkPublicSuffix('om', undef);
+#checkPublicSuffix('test.om', undef);
+#checkPublicSuffix('b.test.om', 'b.test.om');
+#checkPublicSuffix('a.b.test.om', 'b.test.om');
 checkPublicSuffix('songfest.om', 'songfest.om');
 checkPublicSuffix('www.songfest.om', 'songfest.om');
 # US K12.

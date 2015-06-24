@@ -15,9 +15,15 @@ binmode(STDOUT, "utf8");
 
 use ParseUtil::Domain ':parse';
 
-sub t010_split_ascii_domain_tld : Test(33) {
+sub t010_split_ascii_domain_tld : Test(35) {
     my $self         = shift;
     my $test_domains = [
+        {
+            raw => 'something.com.se',
+            domain => 'something',
+            zone => 'com.se'
+        
+        },
 
         {
             raw    => 'something.com',
@@ -71,6 +77,7 @@ sub t010_split_ascii_domain_tld : Test(33) {
     ];
 
     foreach my $test_domain ( @{$test_domains} ) {
+        ### testing : $test_domain
         my $parsed = parse_domain( $test_domain->{raw} );
         my ( $prefix, $domain, $zone, ) = @{$parsed}{qw/prefix domain zone /};
 
