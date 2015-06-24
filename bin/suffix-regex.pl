@@ -1,5 +1,5 @@
-use Unicode::CharName; 
 use Modern::Perl;
+use charnames ':full';
 use Net::IDN::Encode; 
 use Regexp::Assemble::Compressed;
 
@@ -82,7 +82,7 @@ sub reverse_puny_encode {
     };
     if (my $e = $@) {
         my @components = split //, $object;
-        map { print $_. " " . Unicode::CharName::uname(ord($_)) . "\n" }
+        map { print $_. " " . charnames::viacode(ord($_)) . "\n" }
             @components;
         warn "Unable to process $object.\n"
             . "Please report this error to package author.";
