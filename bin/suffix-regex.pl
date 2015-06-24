@@ -1,6 +1,6 @@
+use Unicode::CharName; 
 use Modern::Perl;
-use Net::IDN::Encode;     # ':all';
-use Unicode::CharName;    # q{uname};
+use Net::IDN::Encode; 
 use Regexp::Assemble::Compressed;
 
 use Getopt::Long;
