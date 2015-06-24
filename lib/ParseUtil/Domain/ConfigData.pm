@@ -4,7 +4,7 @@ use Modern::Perl;
 
 use Regexp::Assemble::Compressed;
 
-=head2 config
+=head2 tld_regex
 
 Emulate the original Module::Build generated C<ConfigData> package.
 
@@ -26,6 +26,11 @@ sub tld_regex {
     }
 }
 
+=head2 get_regex
+
+Return the compiled regex.
+
+=cut
 sub get_regex {
     return qr{
 
