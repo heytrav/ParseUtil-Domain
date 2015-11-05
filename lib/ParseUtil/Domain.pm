@@ -218,6 +218,8 @@ sub _puny_decode {
 
 }
 
+1;
+
 __END__
 
 =encoding utf8

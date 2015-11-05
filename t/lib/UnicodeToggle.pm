@@ -1,5 +1,6 @@
 package UnicodeToggle;
 
+use utf8;
 use Moose;
 use Modern::Perl;
 has get_domains_to_test => (
