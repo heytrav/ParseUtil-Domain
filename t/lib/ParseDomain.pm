@@ -1,12 +1,12 @@
 package ParseDomain;
 
+use utf8;
 use strict;
 use warnings;
 
 use parent qw(Test::Class);
 
 use Modern::Perl;
-use utf8::all;
 use Test::More;
 
 use Test::Exception;

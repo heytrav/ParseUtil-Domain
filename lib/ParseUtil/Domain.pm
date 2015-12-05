@@ -7,7 +7,6 @@ our @ISA = qw(Exporter);
 
 use Modern::Perl;
 use Carp;
-use utf8::all;
 use autobox;
 use autobox::Core;
 use List::MoreUtils qw/any/;
@@ -224,6 +223,7 @@ sub _puny_decode {
 }
 
 1;
+
 __END__
 
 =encoding utf8
@@ -233,7 +233,7 @@ __END__
 ParseUtil::Domain - Domain parser and puny encoder/decoder.
 
 
-=for HTML <a href="https://travis-ci.org/heytrav/ParseUtil-Domain"><img src="https://travis-ci.org/heytrav/ParseUtil-Domain.svg?branch=master"></a>
+=for HTML <a href="https://travis-ci.org/heytrav/ParseUtil-Domain"><img src="https://travis-ci.org/heytrav/ParseUtil-Domain.svg?branch=remove-utf8"></a>
 
 
 =head1 SYNOPSIS
