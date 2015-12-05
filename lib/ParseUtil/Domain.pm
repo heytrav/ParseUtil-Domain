@@ -2,20 +2,24 @@ package ParseUtil::Domain;
 
 # VERSION
 
+require Exporter;
+our @ISA = qw(Exporter);
+
 use Modern::Perl;
 use Carp;
 use autobox;
 use autobox::Core;
 use List::MoreUtils qw/any/;
-use Perl6::Export::Attrs;
 use Net::IDN::Encode ':all';
 use Net::IDN::Punycode ':all';
 use Net::IDN::Nameprep;
 #use Smart::Comments;
 
 use ParseUtil::Domain::ConfigData;
+our @EXPORT = qw(parse_domain puny_convert);
+our %EXPORT_TAGS = (parse => [qw/parse_domain/], simple => [qw/puny_convert/]);
 
-sub parse_domain : Export(:parse) {
+sub parse_domain  {
     my $name = shift;
     ### testing : $name
     my @name_segments = $name->split(qr{\Q@\E});
@@ -57,7 +61,7 @@ sub parse_domain : Export(:parse) {
 
 }
 
-sub puny_convert : Export(:simple) {
+sub puny_convert {
     my $domain = shift;
     my @keys;
     if ( $domain =~ /\.?xn--/ ) {
@@ -75,7 +79,7 @@ sub puny_convert : Export(:simple) {
 sub _find_zone {
     my $domain_segments = shift;
 
-    my $tld_regex = ParseUtil::Domain::ConfigData->config('tld_regex');
+    my $tld_regex = ParseUtil::Domain::ConfigData->tld_regex();
     ### Domain Segments: $domain_segments
     my $tld  = $domain_segments->pop;
     my $sld  = $domain_segments->pop;
