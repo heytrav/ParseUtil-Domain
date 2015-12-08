@@ -13,7 +13,7 @@ use List::MoreUtils qw/any/;
 use Net::IDN::Encode ':all';
 use Net::IDN::Punycode ':all';
 use Net::IDN::Nameprep;
-use Smart::Comments;
+#use Smart::Comments;
 
 use ParseUtil::Domain::ConfigData;
 our @EXPORT = qw(parse_domain puny_convert);

@@ -6,7 +6,6 @@ use Test::More;
 use Test::Exception;
 use Mock::Quick;
 use ParseUtil::Domain ':parse';
-use Data::Dumper;
 use namespace::autoclean;
 
 test 'cannot find tld' => sub {

@@ -15,6 +15,7 @@ on 'build' => sub {
   requires 'Test::More';
   requires 'Test::Perl::Critic';
   requires 'Test::Routine';
+  requires 'Mock::Quick';
   requires 'Unicode::CharName';
 };
 
