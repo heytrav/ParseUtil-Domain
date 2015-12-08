@@ -13,7 +13,7 @@ use List::MoreUtils qw/any/;
 use Net::IDN::Encode ':all';
 use Net::IDN::Punycode ':all';
 use Net::IDN::Nameprep;
-#use Smart::Comments;
+use Smart::Comments;
 
 use ParseUtil::Domain::ConfigData;
 our @EXPORT = qw(parse_domain puny_convert);
@@ -144,6 +144,7 @@ sub _punycode_segments {
               if not defined $segment
               or $segment eq '';
             my $nameprepped = nameprep( lc $segment );
+            croak "Could not nameprep segment." if not $nameprepped or $nameprepped eq '';
             my $ascii       = domain_to_ascii($nameprepped);
             push @{$puny_encoded}, $ascii;
         }
