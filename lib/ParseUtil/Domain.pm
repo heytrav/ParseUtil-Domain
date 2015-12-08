@@ -144,7 +144,6 @@ sub _punycode_segments {
               if not defined $segment
               or $segment eq '';
             my $nameprepped = nameprep( lc $segment );
-            croak "Could not nameprep segment." if not $nameprepped or $nameprepped eq '';
             my $ascii       = domain_to_ascii($nameprepped);
             push @{$puny_encoded}, $ascii;
         }
