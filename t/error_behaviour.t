@@ -17,6 +17,8 @@ test 'cannot find tld' => sub {
     } qr/Could\snot\sfind\stld/, 'Croaks when tld not available.';
     my $metrics = $control->metrics;
     is($metrics->{tld_regex}, 1, 'Called once.');
+    $control->restore('tld_regex');
+    $control = undef;
 };
 
 test 'can find tld' => sub {
@@ -28,6 +30,8 @@ test 'can find tld' => sub {
     } 'Finds tld.';
     my $metrics = $control->metrics;
     is($metrics->{tld_regex}, 1, 'Called once.');
+    $control->restore('tld_regex');
+    $control = undef;
 };
 
 test 'undefined mapping croaks' => sub {
@@ -51,6 +55,8 @@ test 'croak if nameprep different from decoded' => sub {
     throws_ok {
         ParseUtil::Domain::_punycode_segments(['somedomain']);
     } qr/Error\sprocessing\sdomain/, 'Croaks to death if nameprep result not equal.'
+    $control->restore('nameprep');
+    $control = undef;
 };
 
 
