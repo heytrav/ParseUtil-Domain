@@ -38,7 +38,7 @@ test 'undefined mapping croaks' => sub {
     my ($self) = @_;
     throws_ok {
         ParseUtil::Domain::_punycode_segments(['']);
-    } qr/Error\sprocessing\sdomain/, 'Croaks to death if domain segment empty.'
+    } qr/Error\sprocessing\sdomain/, 'Croaks to death if domain segment empty.';
 };
 
 test 'normal mapping does not croak' => sub {
@@ -54,7 +54,7 @@ test 'croak if nameprep different from decoded' => sub {
     $control->override(nameprep => sub {die "Error processing domain";});
     throws_ok {
         ParseUtil::Domain::_punycode_segments(['somedomain']);
-    } qr/Error\sprocessing\sdomain/, 'Croaks to death if nameprep result not equal.'
+    } qr/Error\sprocessing\sdomain/, 'Croaks to death if nameprep result not equal.';
     $control->restore('nameprep');
     $control = undef;
 };
