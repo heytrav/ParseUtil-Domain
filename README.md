@@ -113,4 +113,3 @@ Toggles a domain between puny encoded and decoded versions.
 -
 The [Public Suffix List](http://publicsuffix.org/list/).
 
-
